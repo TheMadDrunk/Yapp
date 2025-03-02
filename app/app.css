@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  --font-mono: "Ubuntu Mono", ui-monospace, monospace;
-  --color-primary: #4C2215;
-  --color-secondary: #981D26; 
-  --color-accent: #E5A631;
-  --color-background: #F2E1C5;
+  --font-mono: "Fira Mono", ui-monospace, monospace;
+  --color-primary: #4c2215;
+  --color-secondary: #981d26;
+  --color-accent: #e5a631;
+  --color-background: #f2e1c5;
 }
 
 body {
