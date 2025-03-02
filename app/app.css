@@ -1,15 +1,14 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: "Ubuntu Mono", ui-monospace, monospace;
+  --color-primary: #4C2215;
+  --color-secondary: #981D26; 
+  --color-accent: #E5A631;
+  --color-background: #F2E1C5;
 }
 
-html,
 body {
-  @apply bg-white dark:bg-gray-950;
-
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+  font-family: var(--font-mono);
+  background-color: var(--color-background);
 }
