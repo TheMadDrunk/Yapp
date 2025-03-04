@@ -3,7 +3,7 @@ import { Outlet } from "react-router";
 
 export default function AppLayout() {
   return (
-    <div>
+    <div className="container mx-auto">
       <AppNavBar />
       <Outlet />
     </div>

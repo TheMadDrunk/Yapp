@@ -18,6 +18,12 @@ export function AppNavBar() {
           >
             Articles
           </Link>
+          <Link
+            className="hover:text-secondary hover:underline transition duration-300"
+            to="/projects"
+          >
+            Projects
+          </Link>
         </div>
       </div>
     </nav>

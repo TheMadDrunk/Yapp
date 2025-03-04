@@ -38,7 +38,7 @@ export default function Home() {
       </div>
 
       <div className="flex flex-row justify-end w-full">
-        <Button variant="secondary">Projects</Button>
+        <Button variant="outline">Projects</Button>
       </div>
 
       <div className="flex flex-wrap gap-4 justify-center my-3 sm:gap-6 lg:gap-8">
@@ -69,7 +69,7 @@ export default function Home() {
         />
       </div>
 
-      <div className="py-1 w-full">
+      <div className="py-1 w-full mt-4">
         <Carousel opts={{ loop: false }} className="max-w-5xl mx-auto">
           <CarouselContent className="w-full text-center">
             <CarouselItem className="sm:basis-1/2 lg:basis-1/3">
