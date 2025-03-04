@@ -1,7 +1,7 @@
 import type { Route } from "./+types/home";
 import { AppNavBar } from "../components";
 import { SocialLink } from "../components/SocialLink";
-import { Github, Linkedin, Instagram, MessageCircle } from "lucide-react";
+import { Github, Linkedin, Instagram, MessageCircle, Mail } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import {
   Carousel,
@@ -21,24 +21,27 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   return (
-    <div>
-      <div>
-        <div className="py-5 w-fit mx-auto font-semibold">
-          <h1 className="text-5xl text-primary">Software </h1>
-          <h1 className="text-5xl text-primary ml-30">Engineer</h1>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-2 sm:py-16">
+        <div className="py-5 w-fit md:w-[650px] mx-auto font-semibold ">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl text-primary">
+            Software{" "}
+          </h1>
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl text-primary ml-30 md:text-right">
+            Engineer
+          </h1>
         </div>
-        <h2 className="text-md text-primary w-2/3 mx-2 text-justify">
+        <h2 className="sm:text-sm md:text-md lg:text-xl text-primary max-w-2xl mt-6 md:text-center sm:mx-auto text-left w-[80%]">
           I'm a software engineer with a passion for building products that help
           people live better lives.
         </h2>
       </div>
 
-      {/* Social media links */}
-
-      <div className="flex flex-row justify-end w-full px-2">
+      <div className="flex flex-row justify-end w-full">
         <Button variant="secondary">Projects</Button>
       </div>
-      <div className="flex flex-wrap gap-4 justify-center my-8">
+
+      <div className="flex flex-wrap gap-4 justify-center my-3 sm:gap-6 lg:gap-8">
         <SocialLink
           icon={Github}
           name="GitHub"
@@ -59,12 +62,18 @@ export default function Home() {
           name="Instagram"
           href="https://instagram.com/YOUR_USERNAME"
         />
+        <SocialLink
+          icon={Mail}
+          name="Email"
+          href="https://instagram.com/YOUR_USERNAME"
+        />
       </div>
+
       <div className="py-1 w-full">
-        <Carousel opts={{ loop: false }}>
+        <Carousel opts={{ loop: false }} className="max-w-5xl mx-auto">
           <CarouselContent className="w-full text-center">
-            <CarouselItem className="mx-auto w-fit">
-              <div className="w-fit mx-auto">
+            <CarouselItem className="sm:basis-1/2 lg:basis-1/3">
+              <div className="w-fit mx-auto p-2">
                 <BlogCard
                   title="The simplest example is kafka + golang"
                   description="This article presents a simple way to implement a micro-service architecture using Kafka, Golang and Docker."
@@ -73,8 +82,38 @@ export default function Home() {
                 />
               </div>
             </CarouselItem>
-            <CarouselItem>
-              <div className="w-fit mx-auto">
+            <CarouselItem className="sm:basis-1/2 lg:basis-1/3">
+              <div className="w-fit mx-auto p-2">
+                <BlogCard
+                  title="The simplest example is kafka + golang"
+                  description="This article presents a simple way to implement a micro-service architecture using Kafka, Golang and Docker."
+                  href="/blog/kafka-golang"
+                  imageUrl="https://picsum.photos/300/300"
+                />
+              </div>
+            </CarouselItem>
+            <CarouselItem className="sm:basis-1/2 lg:basis-1/3">
+              <div className="w-fit mx-auto p-2">
+                <BlogCard
+                  title="The simplest example is kafka + golang"
+                  description="This article presents a simple way to implement a micro-service architecture using Kafka, Golang and Docker."
+                  href="/blog/kafka-golang"
+                  imageUrl="https://picsum.photos/300/300"
+                />
+              </div>
+            </CarouselItem>
+            <CarouselItem className="sm:basis-1/2 lg:basis-1/3">
+              <div className="w-fit mx-auto p-2">
+                <BlogCard
+                  title="The simplest example is kafka + golang"
+                  description="This article presents a simple way to implement a micro-service architecture using Kafka, Golang and Docker."
+                  href="/blog/kafka-golang"
+                  imageUrl="https://picsum.photos/300/300"
+                />
+              </div>
+            </CarouselItem>
+            <CarouselItem className="sm:basis-1/2 lg:basis-1/3">
+              <div className="w-fit mx-auto p-2">
                 <BlogCard
                   title="The simplest example is kafka + golang"
                   description="This article presents a simple way to implement a micro-service architecture using Kafka, Golang and Docker."
