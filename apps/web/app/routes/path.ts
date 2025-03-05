@@ -4,3 +4,9 @@ export const paths = {
     projects: "/projects",
     article: "/articles/:slug",
 } as const;
+
+export const pages = {
+    Home: "/",
+    Articles: "/articles",
+    Projects: "/projects",
+} as const;

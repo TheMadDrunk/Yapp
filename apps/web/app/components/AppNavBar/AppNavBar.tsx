@@ -7,6 +7,7 @@ import {
   DrawerTitle,
 } from "../ui/Drawer/Drawer";
 import { Menu } from "lucide-react";
+import { pages } from "~/routes/path";
 
 export function AppNavBar() {
   return (
@@ -15,24 +16,15 @@ export function AppNavBar() {
         <div className="flex flex-row items-center px-2">
           <h1 className="text-2xl font-bold">Yapp</h1>
           <div className="flex items-center gap-4 w-full justify-center">
-            <Link
-              className="hover:text-secondary hover:underline transition duration-300"
-              to="/"
-            >
-              Home
-            </Link>
-            <Link
-              className="hover:text-secondary hover:underline transition duration-300"
-              to="/articles"
-            >
-              Articles
-            </Link>
-            <Link
-              className="hover:text-secondary hover:underline transition duration-300"
-              to="/projects"
-            >
-              Projects
-            </Link>
+            {Object.entries(pages).map(([key, value]) => (
+              <Link
+                key={key}
+                className="hover:text-secondary hover:underline transition duration-300"
+                to={value}
+              >
+                {key}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
@@ -51,24 +43,15 @@ export function AppNavBar() {
               <DrawerTitle>Menu</DrawerTitle>
             </DrawerHeader>
             <div className="flex flex-col gap-2">
-              <Link
-                to="/"
-                className="hover:text-primary hover:underline transition duration-300 px-2 py-1 border border-black"
-              >
-                Home
-              </Link>
-              <Link
-                to="/articles"
-                className="hover:text-primary hover:underline transition duration-300 px-2 py-1 border border-black"
-              >
-                Articles
-              </Link>
-              <Link
-                to="/projects"
-                className="hover:text-primary hover:underline transition duration-300 px-2 py-1 border border-black"
-              >
-                Projects
-              </Link>
+              {Object.entries(pages).map(([key, value]) => (
+                <Link
+                  key={key}
+                  className="hover:text-primary hover:underline transition duration-300 px-2 py-1 border border-black"
+                  to={value}
+                >
+                  {key}
+                </Link>
+              ))}
             </div>
           </DrawerContent>
         </Drawer>
