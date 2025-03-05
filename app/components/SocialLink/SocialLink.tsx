@@ -1,12 +1,13 @@
-import { type LucideIcon } from "lucide-react";
+import type { LucideProps } from "lucide-react";
+import React from "react";
 
-interface SocialLinkProps {
-  icon: LucideIcon;
+export interface SocialLinkProps {
+  icon: string;
   name: string;
   href: string;
 }
 
-export function SocialLink({ icon: Icon, name, href }: SocialLinkProps) {
+export function SocialLink({ icon, name, href }: SocialLinkProps) {
   return (
     <a
       href={href}
@@ -15,7 +16,7 @@ export function SocialLink({ icon: Icon, name, href }: SocialLinkProps) {
       className="flex items-center gap-2 text-primary hover:text-accent hover:border-accent transition-colors duration-300 border border-primary p-1"
       aria-label={name}
     >
-      <Icon className="w-6 h-6" />
+      <div className="w-6 h-6" dangerouslySetInnerHTML={{ __html: icon }} />
       <span className="text-sm font-medium">{name}</span>
     </a>
   );
