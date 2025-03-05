@@ -1,11 +1,11 @@
-import type { Route } from "../+types/root";
-import { useLoaderData } from "react-router";
+import type { Route } from "./+types/articlePage";
+
 export async function loader({ params }: Route.LoaderArgs) {
     return {
         slug: params.slug,
     };
 }
-export default function ArticlePage() {
-    const { slug } = useLoaderData<typeof loader>();
+export default function ArticlePage({ loaderData }: Route.ComponentProps) {
+    const { slug } = loaderData;
     return <div>ArticlePage {slug}</div>;
 }

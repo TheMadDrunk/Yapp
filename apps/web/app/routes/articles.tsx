@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router";
+import { type Route } from "./+types/articles";
 import { Timeline } from "../components/ui/Timeline";
 import { Calendar } from "lucide-react";
 
@@ -19,8 +19,8 @@ export async function loader() {
     };
 }
 
-export default function Articles() {
-    const { articles } = useLoaderData<typeof loader>();
+export default function Articles({ loaderData }: Route.ComponentProps) {
+    const { articles } = loaderData;
 
     return (
         <div className="container mx-auto px-4 py-8">
