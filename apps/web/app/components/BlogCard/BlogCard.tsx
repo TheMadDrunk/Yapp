@@ -1,16 +1,16 @@
+import { NavLink } from "react-router";
 import { Button } from "../ui/Button";
-
 interface BlogCardProps {
   title: string;
   description: string;
-  href: string;
+  slug: string;
   imageUrl: string;
 }
 
 export function BlogCard({
   title,
   description,
-  href,
+  slug,
   imageUrl,
 }: BlogCardProps) {
   return (
@@ -37,7 +37,7 @@ export function BlogCard({
         {/* Read more button - hidden by default, shown on hover */}
         <div className="flex items-center gap-2 opacity-0 transition-all duration-300 group-hover:opacity-100">
           <Button variant="link" className="text-white">
-            Read more
+            <NavLink to={`/blog/${slug}`}>Read more</NavLink>
           </Button>
           <span className="text-white">→</span>
         </div>

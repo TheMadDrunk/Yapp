@@ -2,7 +2,6 @@ import type { Route } from "./+types/home";
 import { Button } from "../components/ui/Button";
 import { SocialLinkList } from "~/components/SocialLinkList";
 import { BlogCardList, type BlogPost } from "~/components/BlogCardList";
-import { useLoaderData } from "react-router";
 import type { SocialLinkProps } from "~/components/SocialLink/SocialLink";
 
 export async function loader() {
@@ -39,35 +38,14 @@ export async function loader() {
       title: "The simplest example is kafka + golang",
       description:
         "This article presents a simple way to implement a micro-service architecture using Kafka, Golang and Docker.",
-      href: "/blog/kafka-golang",
+      slug: "kafka-golang1",
       imageUrl: "https://picsum.photos/300/300",
     },
     {
       title: "The simplest example is kafka + golang",
       description:
         "This article presents a simple way to implement a micro-service architecture using Kafka, Golang and Docker.",
-      href: "/blog/kafka-golang",
-      imageUrl: "https://picsum.photos/300/300",
-    },
-    {
-      title: "The simplest example is kafka + golang",
-      description:
-        "This article presents a simple way to implement a micro-service architecture using Kafka, Golang and Docker.",
-      href: "/blog/kafka-golang",
-      imageUrl: "https://picsum.photos/300/300",
-    },
-    {
-      title: "The simplest example is kafka + golang",
-      description:
-        "This article presents a simple way to implement a micro-service architecture using Kafka, Golang and Docker.",
-      href: "/blog/kafka-golang",
-      imageUrl: "https://picsum.photos/300/300",
-    },
-    {
-      title: "The simplest example is kafka + golang",
-      description:
-        "This article presents a simple way to implement a micro-service architecture using Kafka, Golang and Docker.",
-      href: "/blog/kafka-golang",
+      slug: "kafka-golang2",
       imageUrl: "https://picsum.photos/300/300",
     },
   ];
@@ -75,15 +53,15 @@ export async function loader() {
   return { socialLinks, blogPosts };
 }
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "Software Engineer" },
     { name: "description", content: "Welcome to React Router!" },
   ];
 }
 
-export default function Home() {
-  const { socialLinks, blogPosts } = useLoaderData<typeof loader>();
+export default function Home({ loaderData }: Route.ComponentProps) {
+  const { socialLinks, blogPosts } = loaderData;
   console.log("[socialLinks]", socialLinks);
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

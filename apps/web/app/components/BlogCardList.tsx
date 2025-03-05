@@ -10,7 +10,7 @@ import {
 export type BlogPost = {
   title: string;
   description: string;
-  href: string;
+  slug: string;
   imageUrl: string;
 };
 
@@ -29,7 +29,7 @@ export function BlogCardList({ posts }: BlogCardListProps) {
                 <BlogCard
                   title={post.title}
                   description={post.description}
-                  href={post.href}
+                  slug={post.slug}
                   imageUrl={post.imageUrl}
                 />
               </div>
