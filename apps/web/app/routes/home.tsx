@@ -1,7 +1,7 @@
 import type { Route } from "./+types/home";
 import { Button } from "../components/ui/Button";
 import { SocialLinkList } from "~/components/SocialLinkList";
-import { BlogCardList, type BlogPost } from "~/components/BlogCardList";
+import { ArticlesCardListing, type ArticleCardProps } from "~/components";
 import type { SocialLinkProps } from "~/components/SocialLink/SocialLink";
 
 export async function loader() {
@@ -33,7 +33,7 @@ export async function loader() {
     },
   ];
 
-  const blogPosts: BlogPost[] = [
+  const articles: ArticleCardProps[] = [
     {
       title: "The simplest example is kafka + golang",
       description:
@@ -50,7 +50,7 @@ export async function loader() {
     },
   ];
 
-  return { socialLinks, blogPosts };
+  return { socialLinks, articles };
 }
 
 export function meta({ }: Route.MetaArgs) {
@@ -61,7 +61,7 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  const { socialLinks, blogPosts } = loaderData;
+  const { socialLinks, articles } = loaderData;
   console.log("[socialLinks]", socialLinks);
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -85,7 +85,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       </div>
 
       <SocialLinkList links={socialLinks} />
-      <BlogCardList posts={blogPosts} />
+      <ArticlesCardListing articles={articles} />
     </div>
   );
 }

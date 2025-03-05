@@ -11,9 +11,9 @@ import { Menu } from "lucide-react";
 export function AppNavBar() {
   return (
     <nav className="bg-background text-primary py-2 w-full">
-      <div className="hidden sm:visible">
+      <div className="hidden sm:block">
         <div className="flex flex-row items-center px-2">
-          <h1 className="text-2xl font-bold">7amza</h1>
+          <h1 className="text-2xl font-bold">Yapp</h1>
           <div className="flex items-center gap-4 w-full justify-center">
             <Link
               className="hover:text-secondary hover:underline transition duration-300"
@@ -36,8 +36,8 @@ export function AppNavBar() {
           </div>
         </div>
       </div>
-      <div className="flex flex-row items-center justify-between px-2">
-        <h1 className="text-2xl font-bold">7amza</h1>
+      <div className="flex flex-row items-center justify-between px-2 sm:hidden">
+        <h1 className="text-2xl font-bold">Yapp</h1>
 
         <Drawer direction="right">
           <DrawerTrigger>

@@ -1,18 +1,19 @@
 import { NavLink } from "react-router";
 import { Button } from "../ui/Button";
-interface BlogCardProps {
+import { linkToArticles } from "~/utils/navigation";
+export interface ArticleCardProps {
   title: string;
   description: string;
   slug: string;
   imageUrl: string;
 }
 
-export function BlogCard({
+export function ArticleCard({
   title,
   description,
   slug,
   imageUrl,
-}: BlogCardProps) {
+}: ArticleCardProps) {
   return (
     <div
       className="group relative h-[300px] w-[300px] bg-gray-900 transition-all duration-300"
@@ -23,7 +24,7 @@ export function BlogCard({
       }}
     >
       {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900/90" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary/80" />
 
       {/* Content container */}
       <div className="absolute bottom-0 p-6 transition-all duration-300 group-hover:bottom-4">
@@ -37,7 +38,7 @@ export function BlogCard({
         {/* Read more button - hidden by default, shown on hover */}
         <div className="flex items-center gap-2 opacity-0 transition-all duration-300 group-hover:opacity-100">
           <Button variant="link" className="text-white">
-            <NavLink to={`/blog/${slug}`}>Read more</NavLink>
+            <NavLink to={linkToArticles(slug)}>Read more</NavLink>
           </Button>
           <span className="text-white">→</span>
         </div>

@@ -1,36 +1,29 @@
-import { BlogCard } from "./BlogCard";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
-} from "./ui/Carousel";
+} from "~/components/ui";
+import { ArticleCard, type ArticleCardProps } from "~/components";
 
-export type BlogPost = {
-  title: string;
-  description: string;
-  slug: string;
-  imageUrl: string;
-};
-
-interface BlogCardListProps {
-  posts: BlogPost[];
+interface ArticlesCardListingProps {
+  articles: ArticleCardProps[];
 }
 
-export function BlogCardList({ posts }: BlogCardListProps) {
+export function ArticlesCardListing({ articles }: ArticlesCardListingProps) {
   return (
     <div className="py-1 w-full mt-4">
       <Carousel opts={{ loop: true }} className="max-w-5xl mx-auto">
         <CarouselContent className="w-full text-center">
-          {posts.map((post, index) => (
+          {articles.map((article, index) => (
             <CarouselItem key={index} className="sm:basis-1/2 lg:basis-1/3">
               <div className="w-fit mx-auto p-2">
-                <BlogCard
-                  title={post.title}
-                  description={post.description}
-                  slug={post.slug}
-                  imageUrl={post.imageUrl}
+                <ArticleCard
+                  title={article.title}
+                  description={article.description}
+                  slug={article.slug}
+                  imageUrl={article.imageUrl}
                 />
               </div>
             </CarouselItem>
