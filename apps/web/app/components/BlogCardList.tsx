@@ -21,7 +21,7 @@ interface BlogCardListProps {
 export function BlogCardList({ posts }: BlogCardListProps) {
   return (
     <div className="py-1 w-full mt-4">
-      <Carousel opts={{ loop: false }} className="max-w-5xl mx-auto">
+      <Carousel opts={{ loop: true }} className="max-w-5xl mx-auto">
         <CarouselContent className="w-full text-center">
           {posts.map((post, index) => (
             <CarouselItem key={index} className="sm:basis-1/2 lg:basis-1/3">
