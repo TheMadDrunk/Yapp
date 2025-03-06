@@ -1,5 +1,5 @@
-import { SocialLink } from "./SocialLink";
-import type { SocialLinkProps } from "./SocialLink/SocialLink";
+import { SocialLink } from "~/components/SocialLink";
+import type { SocialLinkProps } from "~/components/SocialLink";
 
 interface SocialLinkListProps {
   links: SocialLinkProps[];

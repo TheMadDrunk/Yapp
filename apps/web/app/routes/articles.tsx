@@ -61,7 +61,7 @@ export default function Articles({ loaderData }: Route.ComponentProps) {
                                         <Timeline.Time className="text-accent text-sm">{new Date(article.lastUpdated).toLocaleDateString()}</Timeline.Time>
                                         <Timeline.Body className="text-primary">
                                             <p className="text-sm pb-2">{article.content}</p>
-                                            <div className="flex gap-y-1">
+                                            <div className="flex gap-1">
                                                 {article.tags.map((tag) => (
                                                     <span
                                                         key={tag}
