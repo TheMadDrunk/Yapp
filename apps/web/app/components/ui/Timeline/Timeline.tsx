@@ -44,7 +44,7 @@ export function Timeline({ children, horizontal = false, className }: TimelinePr
         <TimelineContext.Provider value={{ horizontal }}>
             <ol className={twMerge(
                 'relative',
-                horizontal ? 'flex' : 'border-s border-gray-200 dark:border-gray-700',
+                horizontal ? 'flex' : 'border-s border-accent',
                 className
             )}>
                 {children}
@@ -69,12 +69,12 @@ function TimelinePoint({ icon: Icon, className }: TimelinePointProps) {
     const { horizontal } = React.useContext(TimelineContext);
     return (
         <span className={twMerge(
-            'absolute flex items-center justify-center w-6 h-6 rounded-full bg-primary ',
-            horizontal ? 'start-1/2 -translate-x-1/2' : '-start-3',
+            'absolute flex items-center justify-center w-8 h-8 bg-primary ',
+            horizontal ? 'start-1/2 -translate-x-1/2' : '-start-4',
             className
         )}>
             {Icon && (
-                <Icon className="w-2.5 h-2.5 text-black " />
+                <Icon className="w-4 h-4 text-background" />
             )}
         </span>
     );
@@ -106,7 +106,7 @@ function TimelineTime({ children, className }: TimelineTimeProps) {
 function TimelineTitle({ children, className }: TimelineTitleProps) {
     return (
         <h3 className={twMerge(
-            'mb-1 text-lg font-semibold text-gray-900 ',
+            'text-lg font-semibold text-gray-900 ',
             className
         )}>
             {children}
@@ -117,7 +117,7 @@ function TimelineTitle({ children, className }: TimelineTitleProps) {
 function TimelineBody({ children, className }: TimelineBodyProps) {
     return (
         <p className={twMerge(
-            'mb-4 text-base font-normal text-gray-500 ',
+            'text-base font-normal text-gray-500 ',
             className
         )}>
             {children}
