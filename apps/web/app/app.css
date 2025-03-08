@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@plugin "@tailwindcss/typography";
 @theme {
   --font-mono: "Fira Mono", ui-monospace, monospace;
   --color-primary: #4c2215;

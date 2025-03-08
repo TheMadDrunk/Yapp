@@ -3,14 +3,17 @@ import { GET_SINGLE_ARTICLE } from "~/graphql/queries";
 import type { Article } from "~/graphql/types";
 import graphqlClient from "~/graphql/client";
 import { format } from "date-fns";
+import { url } from "~/utils/constants";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import dracula from "react-syntax-highlighter/dist/esm/styles/prism/darcula";
 
 export async function loader({ params }: Route.LoaderArgs) {
     const { data } = await graphqlClient.query<{ articles: [Article] }>({
         query: GET_SINGLE_ARTICLE,
         variables: { slug: params.slug },
     });
-
-    console.log("[data]", data);
 
     return {
         article: data.articles[0],
@@ -19,7 +22,6 @@ export async function loader({ params }: Route.LoaderArgs) {
 
 export default function ArticlePage({ loaderData }: Route.ComponentProps) {
     const { article } = loaderData;
-    console.log("[article]", article);
     const formattedDate = format(new Date(article.updatedAt), 'MMMM d, yyyy');
 
     return (
@@ -40,9 +42,9 @@ export default function ArticlePage({ loaderData }: Route.ComponentProps) {
                     </div>
                 </div>
                 {article.cover?.url && (
-                    <div className="aspect-video w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+                    <div className="aspect-video w-full mb-8 overflow-hidden">
                         <img
-                            src={article.cover.url}
+                            src={url + article.cover.url}
                             alt={article.title}
                             className="w-full h-full object-cover"
                         />
@@ -52,13 +54,31 @@ export default function ArticlePage({ loaderData }: Route.ComponentProps) {
                     {article.description}
                 </p>
             </header>
+            <article className="prose prose-orange prose-zinc prose-headings:text-primary prose-pre:p-0 prose-headings:font-mono prose-lg max-w-none ">
+                <Markdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                        code({ node, inline, className, children, ...props }) {
+                            const match = /language-(\w+)/.exec(className || "");
 
-            {/* Article Content */}
-            <article className="prose prose-lg max-w-none">
-                <div
-                    className="text-primary prose-headings:text-primary prose-a:text-secondary hover:prose-a:text-accent prose-strong:text-primary prose-blockquote:text-primary/80 prose-blockquote:border-l-accent"
-                    dangerouslySetInnerHTML={{ __html: article.content }}
-                />
+                            return !inline && match ? (
+                                <SyntaxHighlighter
+                                    style={dracula}
+                                    language={match[1]}
+                                    PreTag="div"
+                                >
+                                    {String(children).replace(/\n$/, "")}
+                                </SyntaxHighlighter>
+                            ) : (
+                                <code className={className} {...props}>
+                                    {children}
+                                </code>
+                            );
+                        }
+                    }}
+                >
+                    {article.content}
+                </Markdown>
             </article>
         </div>
     );
