@@ -11,4 +11,8 @@
 body {
   font-family: var(--font-mono);
   background-color: var(--color-background);
+  ::selection {
+    color: var(--color-background);
+    background: var(--color-secondary);
+  }
 }
