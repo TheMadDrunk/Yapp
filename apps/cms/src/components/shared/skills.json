@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_shared_skills",
+  "info": {
+    "displayName": "skills",
+    "icon": "filePdf"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "icon": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

@@ -34,11 +34,6 @@
       "type": "component",
       "repeatable": false,
       "component": "shared.seo"
-    },
-    "favoriteQuote": {
-      "type": "component",
-      "repeatable": false,
-      "component": "shared.quote"
     }
   }
 }

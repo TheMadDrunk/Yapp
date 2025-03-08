@@ -28,11 +28,24 @@ export interface SharedSeo extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedSkills extends Struct.ComponentSchema {
+  collectionName: 'components_shared_skills';
+  info: {
+    displayName: 'skills';
+    icon: 'filePdf';
+  };
+  attributes: {
+    icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    name: Schema.Attribute.String;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
       'shared.quote': SharedQuote;
       'shared.seo': SharedSeo;
+      'shared.skills': SharedSkills;
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "yapp",
-  "description": "Yapp : Yet Another Personal Portfolio",
+  "description": "Yapp : Yet Another P Portfolio",
   "packageManager": "yarn@4.4.1",
   "private": true,
   "workspaces": [
@@ -10,6 +10,7 @@
   "dependencies": {
     "@react-router/node": "^7.2.0",
     "@react-router/serve": "^7.2.0",
+    "@strapi/plugin-graphql": "^5.11.0",
     "@strapi/strapi": "^5.11.0",
     "class-variance-authority": "^0.7.1",
     "embla-carousel-react": "^8.5.2",
