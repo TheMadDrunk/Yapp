@@ -8,6 +8,7 @@ export interface ArticleCardProps {
   imageUrl: string;
 }
 
+const url = process.env.STRAPI_URL;
 export function ArticleCard({
   title,
   description,
@@ -18,7 +19,7 @@ export function ArticleCard({
     <div
       className="group relative h-[300px] w-[300px] bg-gray-900 transition-all duration-300"
       style={{
-        backgroundImage: `url(${imageUrl})`,
+        backgroundImage: `url(${url}${imageUrl})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

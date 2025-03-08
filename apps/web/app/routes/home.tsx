@@ -3,7 +3,9 @@ import { Button } from "../components/ui/Button";
 import { SocialLinkList } from "~/components/SocialLinkList";
 import { ArticlesCardListing, type ArticleCardProps } from "~/components";
 import type { SocialLinkProps } from "~/components/SocialLink/SocialLink";
-import { GitBranch } from "lucide-react";
+import { GET_COLLECTION_ARTICLES } from "../graphql/queries";
+import type { CollectionArticles } from "../graphql/types";
+import graphqlClient from "~/graphql/client";
 
 export async function loader() {
 
@@ -36,23 +38,28 @@ export async function loader() {
     },
   ];
 
-  const articles: ArticleCardProps[] = [
-    {
-      title: "The simplest example is kafka + golang",
-      description:
-        "This article presents a simple way to implement a micro-service architecture using Kafka, Golang and Docker.",
-      slug: "kafka-golang1",
-      imageUrl: "https://picsum.photos/300/300",
-    },
-    {
-      title: "The simplest example is kafka + golang",
-      description:
-        "This article presents a simple way to implement a micro-service architecture using Kafka, Golang and Docker.",
-      slug: "kafka-golang2",
-      imageUrl: "https://picsum.photos/300/300",
-    },
-  ];
+  // const articles: ArticleCardProps[] = [
+  //   {
+  //     title: "The simplest example is kafka + golang",
+  //     description:
+  //       "This article presents a simple way to implement a micro-service architecture using Kafka, Golang and Docker.",
+  //     slug: "kafka-golang1",
+  //     imageUrl: "https://picsum.photos/300/300",
+  //   },
+  //   {
+  //     title: "The simplest example is kafka + golang",
+  //     description:
+  //       "This article presents a simple way to implement a micro-service architecture using Kafka, Golang and Docker.",
+  //     slug: "kafka-golang2",
+  //     imageUrl: "https://picsum.photos/300/300",
+  //   },
+  // ];
 
+  const { data: collectionArticles } = await graphqlClient.query<CollectionArticles>({
+    query: GET_COLLECTION_ARTICLES,
+  });
+
+  const articles = collectionArticles?.articles;
 
   const skills = [
     {
@@ -140,7 +147,6 @@ export function meta({ }: Route.MetaArgs) {
 
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { socialLinks, articles, skills } = loaderData;
-  console.log("[socialLinks]", socialLinks);
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="py-2 sm:py-16">

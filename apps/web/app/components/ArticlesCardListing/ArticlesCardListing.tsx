@@ -5,10 +5,10 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "~/components/ui";
-import { ArticleCard, type ArticleCardProps } from "~/components";
-
+import { ArticleCard } from "~/components";
+import type { ArticleSummary } from "~/graphql/types";
 interface ArticlesCardListingProps {
-  articles: ArticleCardProps[];
+  articles: ArticleSummary[];
 }
 
 export function ArticlesCardListing({ articles }: ArticlesCardListingProps) {
@@ -23,7 +23,7 @@ export function ArticlesCardListing({ articles }: ArticlesCardListingProps) {
                   title={article.title}
                   description={article.description}
                   slug={article.slug}
-                  imageUrl={article.imageUrl}
+                  imageUrl={article.cover.url}
                 />
               </div>
             </CarouselItem>

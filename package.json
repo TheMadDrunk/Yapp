@@ -8,6 +8,7 @@
   ],
   "license": "GLWTPL",
   "dependencies": {
+    "@apollo/client": "^3.13.3",
     "@react-router/node": "^7.2.0",
     "@react-router/serve": "^7.2.0",
     "@strapi/plugin-graphql": "^5.11.0",
