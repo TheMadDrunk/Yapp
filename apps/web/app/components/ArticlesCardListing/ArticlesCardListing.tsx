@@ -24,6 +24,7 @@ export function ArticlesCardListing({ articles }: ArticlesCardListingProps) {
                   description={article.description}
                   slug={article.slug}
                   imageUrl={article.cover.url}
+                  tags={article.tags.map((tag) => tag.tag)}
                 />
               </div>
             </CarouselItem>

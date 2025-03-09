@@ -3,7 +3,7 @@ import { GET_SINGLE_ARTICLE } from "~/graphql/queries";
 import type { Article } from "~/graphql/types";
 import graphqlClient from "~/graphql/client";
 import { format } from "date-fns";
-import { url } from "~/utils/constants";
+import env from "~/config/env";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -35,7 +35,10 @@ export default function ArticlePage({ loaderData }: Route.ComponentProps) {
                     <time dateTime={article.updatedAt}>{formattedDate}</time>
                     <div className="flex gap-2">
                         {article.tags.map(({ tag }) => (
-                            <span key={tag} className="text-accent">
+                            <span
+                                key={tag}
+                                className="text-secondary text-sm font-bold"
+                            >
                                 #{tag}
                             </span>
                         ))}
@@ -44,7 +47,7 @@ export default function ArticlePage({ loaderData }: Route.ComponentProps) {
                 {article.cover?.url && (
                     <div className="aspect-video w-full mb-8 overflow-hidden">
                         <img
-                            src={url + article.cover.url}
+                            src={env.STRAPI_URL + article.cover.url}
                             alt={article.title}
                             className="w-full h-full object-cover"
                         />

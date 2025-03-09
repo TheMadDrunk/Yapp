@@ -30,7 +30,7 @@ export const GET_SINGLE_ARTICLE = gql`
         description
         updatedAt
         content
-            tags {
+        tags {
             tag
         }
     }

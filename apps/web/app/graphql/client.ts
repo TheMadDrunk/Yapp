@@ -1,12 +1,12 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client/core";
-import { token, url } from "~/utils/constants";
+import env from "~/config/env";
 
 const graphqlClient = new ApolloClient({
-    uri: url + "/graphql",
+    uri: env.STRAPI_URL + "/graphql",
     cache: new InMemoryCache(),
     ssrMode: true,
     headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${env.STRAPI_TOKEN}`,
     },
 });
 

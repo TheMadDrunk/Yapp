@@ -60,6 +60,7 @@ export async function loader() {
   });
 
   const articles = collectionArticles?.articles;
+  console.log("[articles]", articles);
 
   const skills = [
     {

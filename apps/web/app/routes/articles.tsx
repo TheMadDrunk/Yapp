@@ -3,23 +3,17 @@ import { Calendar, ArrowRight } from "lucide-react";
 import { Button, Timeline } from "~/components/ui";
 import { Link } from "react-router"
 import { linkToArticles } from "~/utils/navigation";
-interface Article {
-    id: number;
-    title: string;
-    content: string;
-    slug: string;
-    lastUpdated: string;
-    tags: string[];
-}
+import { GET_COLLECTION_ARTICLES } from "~/graphql/queries";
+import graphqlClient from "~/graphql/client";
+import type { Article } from "~/graphql/types";
 
 export async function loader() {
+    const { data } = await graphqlClient.query<{ articles: [Article] }>({
+        query: GET_COLLECTION_ARTICLES,
+    });
+    console.log("[data]", data);
     return {
-        articles: [
-            { id: 1, slug: "blockchain-for-the-masses", title: "Blockchain for the masses", content: "Blockchain is a technology that is changing the world. It is a technology that is changing the world. It is a technology that is changing the world. It is a technology that is changing the world.", lastUpdated: "2021-01-01", tags: ["tag1", "tag2"] },
-            { id: 2, slug: "bitope", title: "Bitope", content: "Bitope is a technology that is changing the world. It is a technology that is changing the world. It is a technology that is changing the world. It is a technology that is changing the world.", lastUpdated: "2025-02-02", tags: ["tag3", "tag4"] },
-            { id: 3, slug: "article-3", title: "Article 3", content: "Bitope is a technology that is changing the world. It is a technology that is changing the world. It is a technology that is changing the world. It is a technology that is changing the world.", lastUpdated: "2025-02-02", tags: ["tag3", "tag4"] },
-            { id: 4, slug: "arti", title: "Article 4", content: "Bitope is a technology that is changing the world. It is a technology that is changing the world. It is a technology that is changing the world. It is a technology that is changing the world.", lastUpdated: "2025-02-02", tags: ["tag3", "tag4"] },
-        ],
+        articles: data.articles,
     };
 }
 
@@ -28,7 +22,7 @@ export default function Articles({ loaderData }: Route.ComponentProps) {
 
     // Group articles by month
     const groupedArticles = articles.reduce((acc, article) => {
-        const date = new Date(article.lastUpdated);
+        const date = new Date(article.updatedAt);
         const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
         const monthName = date.toLocaleString('default', { month: 'long', year: 'numeric' });
 
@@ -45,7 +39,7 @@ export default function Articles({ loaderData }: Route.ComponentProps) {
 
     // Sort months in descending order
     const sortedMonths = Object.entries(groupedArticles).sort((a, b) => b[0].localeCompare(a[0]));
-
+    console.log("[sortedMonths]", sortedMonths);
     return (
         <div className="w-fit mx-auto px-4 py-8">
             <Timeline>
@@ -56,13 +50,13 @@ export default function Articles({ loaderData }: Route.ComponentProps) {
                             <Timeline.Time className="text-accent font-bold text-lg">{monthName}</Timeline.Time>
                             <div className="space-y-4">
                                 {articles.map((article) => (
-                                    <div key={article.id} className="p-1 hover:border-accent border-1 hover:border-solid border-dashed border-transparent transition-all duration-400">
+                                    <div key={article.slug} className="p-1 hover:border-accent border-1 hover:border-solid border-dashed border-transparent transition-all duration-400">
                                         <Timeline.Title className="text-primary">{article.title}</Timeline.Title>
-                                        <Timeline.Time className="text-accent text-sm">{new Date(article.lastUpdated).toLocaleDateString()}</Timeline.Time>
+                                        <Timeline.Time className="text-accent text-sm">{new Date(article.updatedAt).toLocaleDateString()}</Timeline.Time>
                                         <Timeline.Body className="text-primary">
-                                            <p className="text-sm pb-2">{article.content}</p>
+                                            <p className="text-sm pb-2">{article.description}</p>
                                             <div className="flex gap-1">
-                                                {article.tags.map((tag) => (
+                                                {article.tags.map(({ tag }) => (
                                                     <span
                                                         key={tag}
                                                         className="text-secondary text-sm font-bold"
