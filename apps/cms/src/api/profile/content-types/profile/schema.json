@@ -44,6 +44,21 @@
         "videos",
         "audios"
       ]
+    },
+    "githubLink": {
+      "type": "string"
+    },
+    "linkedinLink": {
+      "type": "string"
+    },
+    "whatsappPhone": {
+      "type": "string"
+    },
+    "intagramLink": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
     }
   }
 }

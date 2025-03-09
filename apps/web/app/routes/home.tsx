@@ -38,91 +38,13 @@ export async function loader() {
     },
   ];
 
-  // const articles: ArticleCardProps[] = [
-  //   {
-  //     title: "The simplest example is kafka + golang",
-  //     description:
-  //       "This article presents a simple way to implement a micro-service architecture using Kafka, Golang and Docker.",
-  //     slug: "kafka-golang1",
-  //     imageUrl: "https://picsum.photos/300/300",
-  //   },
-  //   {
-  //     title: "The simplest example is kafka + golang",
-  //     description:
-  //       "This article presents a simple way to implement a micro-service architecture using Kafka, Golang and Docker.",
-  //     slug: "kafka-golang2",
-  //     imageUrl: "https://picsum.photos/300/300",
-  //   },
-  // ];
-
   const { data: collectionArticles } = await graphqlClient.query<CollectionArticles>({
     query: GET_COLLECTION_ARTICLES,
   });
-
   const articles = collectionArticles?.articles;
-  console.log("[articles]", articles);
 
   const skills = [
-    {
-      name: "React",
-      icon: githubIcon,
-    },
-    {
-      name: "React",
-      icon: githubIcon,
-    },
-    {
-      name: "React",
-      icon: githubIcon,
-    },
-    {
-      name: "React",
-      icon: githubIcon,
-    },
-    {
-      name: "React",
-      icon: githubIcon,
-    },
-    {
-      name: "React",
-      icon: githubIcon,
-    },
-    {
-      name: "React",
-      icon: githubIcon,
-    },
-    {
-      name: "React",
-      icon: githubIcon,
-    },
-    {
-      name: "React",
-      icon: githubIcon,
-    },
-    {
-      name: "React",
-      icon: githubIcon,
-    },
-    {
-      name: "React",
-      icon: githubIcon,
-    },
-    {
-      name: "React",
-      icon: githubIcon,
-    },
-    {
-      name: "React",
-      icon: githubIcon,
-    },
-    {
-      name: "React",
-      icon: githubIcon,
-    },
-    {
-      name: "React",
-      icon: githubIcon,
-    },
+
     {
       name: "React",
       icon: githubIcon,
@@ -139,7 +61,8 @@ export async function loader() {
   return { socialLinks, articles, skills };
 }
 
-export function meta({ }: Route.MetaArgs) {
+export function meta({ data }: Route.MetaArgs) {
+  const { articles } = data;
   return [
     { title: "Software Engineer" },
     { name: "description", content: "Welcome to React Router!" },
