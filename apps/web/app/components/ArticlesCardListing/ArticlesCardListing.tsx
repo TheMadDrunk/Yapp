@@ -12,6 +12,9 @@ interface ArticlesCardListingProps {
 }
 
 export function ArticlesCardListing({ articles }: ArticlesCardListingProps) {
+  if (articles.length === 0) {
+    return null;
+  }
   return (
     <div className="py-1 w-full mt-4">
       <Carousel opts={{ loop: true }} className="max-w-5xl mx-auto">

@@ -11,7 +11,11 @@ export async function loader() {
     const { data } = await graphqlClient.query<{ articles: [Article] }>({
         query: GET_COLLECTION_ARTICLES,
     });
-    console.log("[data]", data);
+    if (data.articles[0] === null) {
+        return {
+            articles: [],
+        };
+    }
     return {
         articles: data.articles,
     };
@@ -19,7 +23,15 @@ export async function loader() {
 
 export default function Articles({ loaderData }: Route.ComponentProps) {
     const { articles } = loaderData;
-
+    if (articles.length === 0) {
+        return <div className="w-fit mx-auto px-4 py-8">
+            <Timeline>
+                <Timeline.Item>
+                    <Timeline.Content className="text-primary container max-w-2xl ml-4 font-bold">No articles found, come back later!</Timeline.Content>
+                </Timeline.Item>
+            </Timeline>
+        </div>;
+    }
     // Group articles by month
     const groupedArticles = articles.reduce((acc, article) => {
         const date = new Date(article.updatedAt);
@@ -39,7 +51,6 @@ export default function Articles({ loaderData }: Route.ComponentProps) {
 
     // Sort months in descending order
     const sortedMonths = Object.entries(groupedArticles).sort((a, b) => b[0].localeCompare(a[0]));
-    console.log("[sortedMonths]", sortedMonths);
     return (
         <div className="w-fit mx-auto px-4 py-8">
             <Timeline>
