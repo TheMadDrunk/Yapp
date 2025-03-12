@@ -36,3 +36,34 @@ export const GET_SINGLE_ARTICLE = gql`
     }
 }
 `;
+
+export const PROFILE_INFO = gql`
+    query GetProfileInfo {
+        profile {
+        description
+        title
+        subTitle
+        favoriteQuote {
+            name
+            body
+        }
+        name
+        profilePicture {
+        url
+        }
+        skills {
+            name
+            icon {
+                url
+            }
+        }
+        socialLinks {
+            name
+            link
+            icon {
+                url
+            }
+        }
+    }
+}
+`;

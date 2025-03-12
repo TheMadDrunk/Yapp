@@ -454,11 +454,7 @@ export interface ApiProfileProfile extends Struct.SingleTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.String;
-    email: Schema.Attribute.String;
     favoriteQuote: Schema.Attribute.Component<'shared.quote', false>;
-    githubLink: Schema.Attribute.String;
-    intagramLink: Schema.Attribute.String;
-    linkedinLink: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -471,13 +467,13 @@ export interface ApiProfileProfile extends Struct.SingleTypeSchema {
       true
     >;
     publishedAt: Schema.Attribute.DateTime;
-    skill: Schema.Attribute.Component<'shared.skills', true>;
+    skills: Schema.Attribute.Component<'shared.skills', true>;
+    socialLinks: Schema.Attribute.Component<'shared.social-link', true>;
     subTitle: Schema.Attribute.String;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    whatsappPhone: Schema.Attribute.String;
   };
 }
 

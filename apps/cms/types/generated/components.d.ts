@@ -40,12 +40,25 @@ export interface SharedSkills extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedSocialLink extends Struct.ComponentSchema {
+  collectionName: 'components_shared_social_links';
+  info: {
+    displayName: 'SocialLink';
+  };
+  attributes: {
+    icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    link: Schema.Attribute.String;
+    name: Schema.Attribute.String;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
       'shared.quote': SharedQuote;
       'shared.seo': SharedSeo;
       'shared.skills': SharedSkills;
+      'shared.social-link': SharedSocialLink;
     }
   }
 }

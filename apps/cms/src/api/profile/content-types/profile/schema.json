@@ -23,7 +23,7 @@
     "description": {
       "type": "string"
     },
-    "skill": {
+    "skills": {
       "displayName": "skills",
       "type": "component",
       "repeatable": true,
@@ -45,20 +45,10 @@
         "audios"
       ]
     },
-    "githubLink": {
-      "type": "string"
-    },
-    "linkedinLink": {
-      "type": "string"
-    },
-    "whatsappPhone": {
-      "type": "string"
-    },
-    "intagramLink": {
-      "type": "string"
-    },
-    "email": {
-      "type": "string"
+    "socialLinks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.social-link"
     }
   }
 }

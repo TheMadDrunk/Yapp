@@ -1,8 +1,8 @@
+import type { ISocialLink } from "~/graphql/types";
 import { SocialLink } from "~/components/SocialLink";
-import type { SocialLinkProps } from "~/components/SocialLink";
 
 interface SocialLinkListProps {
-  links: SocialLinkProps[];
+  links: ISocialLink[];
 }
 
 export function SocialLinkList({ links }: SocialLinkListProps) {
@@ -13,7 +13,7 @@ export function SocialLinkList({ links }: SocialLinkListProps) {
           key={link.name}
           icon={link.icon}
           name={link.name}
-          href={link.href}
+          link={link.link}
         />
       ))}
     </div>

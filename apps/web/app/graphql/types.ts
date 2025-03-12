@@ -28,3 +28,38 @@ export interface ArticleSummary {
 export interface CollectionArticles {
     articles: ArticleSummary[];
 }
+export interface Profile {
+    email: string;
+    description: string;
+    title: string;
+    subTitle: string;
+    skills: {
+        name: string;
+        id: string;
+        icon: {
+            url: string;
+        };
+    }[];
+    favoriteQuote: {
+        name: string;
+        body: string;
+    };
+    name: string;
+    profilePicture: {
+        url: string;
+    };
+    socialLinks: ISocialLink[];
+}
+
+export interface ISocialLink {
+    name: string;
+    link: string;
+    icon: {
+        url: string;
+    };
+}
+
+export interface ProfileInfo {
+    profile: Profile;
+}
+
