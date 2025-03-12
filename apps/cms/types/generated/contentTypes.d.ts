@@ -463,8 +463,7 @@ export interface ApiProfileProfile extends Struct.SingleTypeSchema {
       Schema.Attribute.Private;
     name: Schema.Attribute.String;
     profilePicture: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
+      'images' | 'files' | 'videos' | 'audios'
     >;
     publishedAt: Schema.Attribute.DateTime;
     skills: Schema.Attribute.Component<'shared.skills', true>;

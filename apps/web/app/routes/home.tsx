@@ -6,6 +6,7 @@ import { GET_COLLECTION_ARTICLES, PROFILE_INFO } from "../graphql/queries";
 import type { CollectionArticles, ProfileInfo } from "../graphql/types";
 import graphqlClient from "~/graphql/client";
 import { SvgIcon } from "~/components/ui";
+import env from "~/config/env";
 
 export async function loader() {
 
@@ -25,20 +26,23 @@ export async function loader() {
   const title = profileInfo.profile.title;
   const subTitle = profileInfo.profile.subTitle;
   const description = profileInfo.profile.description;
+  const profilePicture = profileInfo.profile.profilePicture;
+  console.log("[profilePicture]", profilePicture);
+  const name = profileInfo.profile.name;
 
-  return { socialLinks, articles, skills, title, subTitle, description };
+  return { socialLinks, articles, skills, title, subTitle, description, profilePicture, name };
 }
 
 export function meta({ data }: Route.MetaArgs) {
-  const { articles } = data;
+  const { name } = data;
   return [
-    { title: "Software Engineer" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: `${name} | Portfolio` },
+    { name: "description", content: `Welcome to ${name}'s portfolio - Full Stack Developer` },
   ];
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  const { socialLinks, articles, skills, title, subTitle, description } = loaderData;
+  const { socialLinks, articles, skills, title, subTitle, description, profilePicture, name } = loaderData;
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="py-2 sm:py-16">
@@ -67,8 +71,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         <p className="text-primary max-w-xl text-justify col-span-3 col-start-5 italic">
           &quot;{description}&quot;
         </p>
-        <div className="col-span-3 col-start-5 row-start-2 row-span-5 flex justify-center items-center sepia-100">
-          <img src="https://picsum.photos/400/600" alt="TMD" />
+        <div className="col-span-3 col-start-5 row-start-2 row-span-5 flex justify-center items-center sepia-100 bg-cover bg-center" style={{ backgroundImage: `url(${env.STRAPI_URL + profilePicture.url})` }}>
         </div>
         <div className="w-[11rem] h-30 p-1">
           <div className="w-full h-full bg-primary text-background"> My Skills</div>

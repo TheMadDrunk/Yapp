@@ -29,7 +29,6 @@ export interface CollectionArticles {
     articles: ArticleSummary[];
 }
 export interface Profile {
-    email: string;
     description: string;
     title: string;
     subTitle: string;

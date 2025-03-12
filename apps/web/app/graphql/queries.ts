@@ -49,7 +49,7 @@ export const PROFILE_INFO = gql`
         }
         name
         profilePicture {
-        url
+            url
         }
         skills {
             name
