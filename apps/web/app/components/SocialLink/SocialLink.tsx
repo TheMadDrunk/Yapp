@@ -1,6 +1,6 @@
 import React from "react";
 import type { ISocialLink } from "~/graphql/types";
-import { SvgIcon } from "~/components/SvgIcon/SvgIcon";
+import { SvgIcon } from "~/components/ui";
 
 export function SocialLink({ icon, name, link }: ISocialLink) {
   return (

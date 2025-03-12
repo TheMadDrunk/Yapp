@@ -5,7 +5,7 @@ import { ArticlesCardListing, type ArticleCardProps } from "~/components";
 import { GET_COLLECTION_ARTICLES, PROFILE_INFO } from "../graphql/queries";
 import type { CollectionArticles, ProfileInfo } from "../graphql/types";
 import graphqlClient from "~/graphql/client";
-import { SvgIcon } from "~/components/SvgIcon/SvgIcon";
+import { SvgIcon } from "~/components/ui";
 
 export async function loader() {
 
