@@ -6,23 +6,42 @@ import { linkToArticles } from "~/utils/navigation";
 import { GET_COLLECTION_ARTICLES } from "~/graphql/queries";
 import graphqlClient from "~/graphql/client";
 import type { Article } from "~/graphql/types";
+import { ErrorDisplay } from "~/components";
 
 export async function loader() {
-    const { data } = await graphqlClient.query<{ articles: [Article] }>({
-        query: GET_COLLECTION_ARTICLES,
-    });
-    if (data.articles[0] === null) {
+    try {
+        const { data } = await graphqlClient.query<{ articles: [Article] }>({
+            query: GET_COLLECTION_ARTICLES,
+        });
+
+        if (data.articles[0] === null) {
+            return {
+                articles: [],
+                error: null
+            };
+        }
+
+        return {
+            articles: data.articles,
+            error: null
+        };
+    } catch (error) {
+        console.error("Error fetching articles:", error);
         return {
             articles: [],
+            error: error instanceof Error ? error.message : "An unknown error occurred"
         };
     }
-    return {
-        articles: data.articles,
-    };
 }
 
 export default function Articles({ loaderData }: Route.ComponentProps) {
-    const { articles } = loaderData;
+    const { articles, error } = loaderData;
+
+    // If there's an error, display the error component
+    if (error) {
+        return <ErrorDisplay message={error} title="Error Loading Articles" />;
+    }
+
     if (articles.length === 0) {
         return <div className="w-fit mx-auto px-4 py-8">
             <Timeline>
