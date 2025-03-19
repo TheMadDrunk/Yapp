@@ -108,7 +108,7 @@ export function WorkExperienceListing({
     };
 
     return (
-        <div className="mt-16 mb-12">
+        <div className="mt-8 md:mt-16 mb-8 md:mb-12">
             <div className="grid grid-cols-1 divide-y divide-primary/10 border-t border-b border-primary/20">
                 {experiences.map((exp, index) => {
                     // Format the duration and year range
@@ -117,22 +117,18 @@ export function WorkExperienceListing({
                     return (
                         <div
                             key={`${exp.company}-${index}`}
-                            className="w-full py-4 relative overflow-hidden group transition-all duration-300 hover:bg-primary/5 cursor-pointer"
+                            className="w-full py-3 md:py-4 relative overflow-hidden group transition-all duration-300 hover:bg-primary/5 cursor-pointer"
                         >
-                            <div className="grid grid-cols-7 gap-2 items-center px-6 relative z-10 group-hover:text-background transition-colors duration-500">
-                                {/* Left column: years and duration */}
-                                <div className="col-span-2 pr-4">
-                                    <div className="font-bold">{exp.startDate} - {exp.endDate}</div>
-                                    <div className="text-sm opacity-60 group-hover:opacity-80 transition-opacity duration-500">{formattedDuration}</div>
+                            {/* Mobile-friendly grid that stacks on small screens */}
+                            <div className="flex flex-col md:grid md:grid-cols-7 gap-1 md:gap-2 items-start md:items-center px-4 md:px-6 relative z-10 group-hover:text-background transition-colors duration-500">
+
+                                {/* Company name - Full width on mobile, col-span-2 on larger screens */}
+                                <div className="w-full md:col-span-2 md:pr-4 mb-1 md:mb-0">
+                                    <div className="font-bold text-sm md:text-base">{exp.company}</div>
                                 </div>
 
-                                {/* Middle column: company name */}
-                                <div className="col-span-2 pr-4">
-                                    <div className="font-bold">{exp.company}</div>
-                                </div>
-
-                                {/* Right column: position with optional technologies */}
-                                <div className="col-span-3 pr-6">
+                                {/* Position - Full width on mobile, col-span-3 on larger screens */}
+                                <div className="w-full md:col-span-3 md:pr-6 text-sm md:text-base">
                                     {exp.position.includes('|') ? (
                                         <>
                                             <span>{exp.position.split('|')[0].trim()}</span>
@@ -142,11 +138,21 @@ export function WorkExperienceListing({
                                         <span>{exp.position}</span>
                                     )}
                                 </div>
+                                {/* Years and duration - Full width on mobile, col-span-2 on larger screens */}
+                                <div className="w-full md:col-span-2 md:pr-4 mb-1 md:mb-0">
+                                    <div className="font-bold text-sm md:text-base">{exp.startDate} - {exp.endDate}</div>
+                                    <div className="text-xs md:text-sm opacity-60 group-hover:opacity-80 transition-opacity duration-500">{formattedDuration}</div>
+                                </div>
+
+                                {/* Description for mobile - Always visible */}
+                                <div className="w-full mt-2 md:hidden">
+                                    <p className="text-xs leading-relaxed text-primary/80 border-l-2 border-primary/20 pl-3 py-1">{exp.description}</p>
+                                </div>
                             </div>
 
-                            {/* Description overlay with gradient */}
+                            {/* Description overlay with gradient - Only for desktop */}
                             <div
-                                className="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-full transition-all duration-500 ease-in-out bg-gradient-to-r from-primary via-secondary to-accent"
+                                className="absolute inset-0 z-10 opacity-0 hidden md:block group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-full transition-all duration-500 ease-in-out bg-gradient-to-r from-primary via-secondary to-accent"
                             >
                                 <div className="absolute inset-0 flex items-center justify-center p-5">
                                     <div className="w-full">
@@ -159,9 +165,9 @@ export function WorkExperienceListing({
                 })}
 
                 {/* Total experience summary row */}
-                <div className="py-6 pr-8 text-right">
-                    <div className="text-primary/70 font-medium">Work experience</div>
-                    <div className="text-primary font-bold">{getTotalExperience()}</div>
+                <div className="py-4 md:py-6 px-4 md:pr-8 flex flex-row justify-between md:justify-end">
+                    <div className="text-primary/70 font-medium text-sm md:text-base">Work experience</div>
+                    <div className="text-primary font-bold text-sm md:text-base md:ml-4">{getTotalExperience()}</div>
                 </div>
             </div>
         </div>

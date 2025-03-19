@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { SvgIcon } from "~/components/ui";
 import env from "~/config/env";
 
@@ -51,6 +51,15 @@ export function SkillsListing({
     // Merge default animation config with any provided overrides
     const config = { ...ANIMATION_CONFIG, ...animationConfig };
 
+    // State to track if we're on mobile
+    const [isMobile, setIsMobile] = useState(false);
+
+    // State to track the active skill on mobile (for touch interactions)
+    const [activeSkill, setActiveSkill] = useState<string | null>(null);
+
+    // State to toggle between different mobile layouts
+    const [altMobileLayout, setAltMobileLayout] = useState(true);
+
     // Reference to store all skill containers
     const skillRefs = useRef<Map<string, HTMLDivElement>>(new Map());
     // Reference to the skills section container
@@ -58,8 +67,29 @@ export function SkillsListing({
     // Track mouse position
     const mousePosition = useRef({ x: 0, y: 0 });
 
-    // Effect to set up mouse event listeners
+    // Effect to detect mobile screens
     useEffect(() => {
+        const checkIfMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        // Check on mount
+        checkIfMobile();
+
+        // Add listener for window resize
+        window.addEventListener('resize', checkIfMobile);
+
+        // Cleanup
+        return () => {
+            window.removeEventListener('resize', checkIfMobile);
+        };
+    }, []);
+
+    // Effect to set up mouse event listeners (only for desktop)
+    useEffect(() => {
+        // Skip this effect on mobile
+        if (isMobile) return;
+
         // Get the skills section container
         const skillsSection = skillsSectionRef.current;
         if (!skillsSection) return;
@@ -130,7 +160,7 @@ export function SkillsListing({
             skillsSection.removeEventListener('mousemove', handleMouseMove);
             skillsSection.removeEventListener('mouseleave', handleMouseLeave);
         };
-    }, [skills, config.THRESHOLD_DISTANCE, config.BASE_GRADIENT_SIZE, config.MAX_SIZE_INCREASE, config.OPACITY_CURVE_POWER]);
+    }, [skills, isMobile, config.THRESHOLD_DISTANCE, config.BASE_GRADIENT_SIZE, config.MAX_SIZE_INCREASE, config.OPACITY_CURVE_POWER]);
 
     // Build the gradient background based on configuration
     const gradientBackground = `radial-gradient(circle closest-side, 
@@ -139,52 +169,129 @@ export function SkillsListing({
         var(--color-accent) ${config.GRADIENT_COLORS.ACCENT_STOP}%, 
         transparent ${config.GRADIENT_COLORS.TRANSPARENT_STOP}%)`;
 
+    // Handle touch interaction for mobile
+    const handleSkillTouch = (skillName: string) => {
+        if (isMobile) {
+            setActiveSkill(prevSkill => prevSkill === skillName ? null : skillName);
+        }
+    };
+
     return (
-        <div className="mt-10 grid grid-cols-7 grid-rows-6" ref={skillsSectionRef}>
-            <h2 className="text-lg text-primary font-semibold col-span-1">./About me</h2>
-            <p className="text-primary max-w-xl text-justify col-span-3 col-start-5 italic">
-                &quot;{description}&quot;
-            </p>
-            {profilePicture && (
-                <div
-                    className="col-span-3 col-start-5 row-start-2 row-span-5 flex justify-center items-center sepia-100 bg-cover bg-center"
-                    style={{ backgroundImage: `url(${env.STRAPI_URL + profilePicture.url})` }}
-                >
+        <div className="mt-6 md:mt-10 px-4 md:px-0" ref={skillsSectionRef}>
+            {/* Modern Minimalist Mobile Layout */}
+            <div className="md:hidden flex flex-col space-y-10">
+                <div className="border-l-2 border-primary pl-4">
+                    <h2 className="text-lg text-primary font-semibold">./About me</h2>
                 </div>
-            )}
-            <div className="w-[11rem] h-30 p-1">
-                <div className="w-full h-full bg-primary text-background"> My Skills</div>
-            </div>
-            {skills.map((skill, index) => (
-                <div
-                    className="w-[11rem] h-30 p-1 cursor-pointer group"
-                    key={skill.name + index}
-                    ref={(el) => {
-                        if (el) skillRefs.current.set(skill.name, el);
-                    }}
-                >
-                    <div className="w-full h-full relative overflow-hidden">
-                        <div className="w-full h-full flex justify-center items-center z-10 relative text-background">
-                            <SvgIcon url={skill.icon.url} size={64} className="text-background transition-colors duration-300 absolute -z-10" />
-                            <div className="text-primary group-hover:invisible transition-colors duration-300">
-                                {skill.name}
+
+                {/* Profile section with image and description */}
+                {profilePicture && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div
+                            className="aspect-square sm:aspect-auto w-full bg-cover bg-center border-b border-primary/20"
+                            style={{ backgroundImage: `url(${env.STRAPI_URL + profilePicture.url})` }}
+                        >
+                        </div>
+                        <div className="flex items-center">
+                            <p className="text-primary text-sm leading-relaxed italic border-l-2 border-primary/30 pl-4">
+                                &quot;{description}&quot;
+                            </p>
+                        </div>
+                    </div>
+                )}
+
+                {/* Skills section */}
+                <div className="space-y-6">
+                    <div className="border-l-2 border-primary pl-4">
+                        <h3 className="text-lg text-primary font-semibold">
+                            My Skills
+                        </h3>
+                    </div>
+
+                    {/* Skill grid with clean layout */}
+                    <div className="grid grid-cols-4 gap-px bg-primary/10">
+                        {skills.map((skill, index) => (
+                            <div
+                                className={`cursor-pointer transition-colors duration-200 ${activeSkill === skill.name
+                                    ? 'bg-primary text-background'
+                                    : 'bg-background hover:bg-primary/5'
+                                    }`}
+                                key={skill.name + index}
+                                onClick={() => handleSkillTouch(skill.name)}
+                                ref={(el) => {
+                                    if (el) skillRefs.current.set(skill.name, el);
+                                }}
+                            >
+                                <div className="w-full aspect-square flex flex-col items-center justify-center p-3">
+                                    <SvgIcon
+                                        url={skill.icon.url}
+                                        size={32}
+                                        className={`mb-2 transition-colors duration-200 ${activeSkill === skill.name ? 'text-background' : 'text-primary'
+                                            }`}
+                                    />
+                                    <div className={`text-xs text-center font-medium transition-colors duration-200 ${activeSkill === skill.name ? 'text-background' : 'text-primary'
+                                        }`}>
+                                        {skill.name}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                        <div className="bg-primary text-background cursor-pointer">
+                            <div className="w-full aspect-square flex items-center justify-center text-xs font-medium">
+                                And More...
                             </div>
                         </div>
-                        <div
-                            className="gradient-reveal absolute rounded-full opacity-0 pointer-events-none"
-                            style={{
-                                background: gradientBackground,
-                                transform: 'translate(-50%, -50%)',
-                                width: `${config.BASE_GRADIENT_SIZE}px`,
-                                height: `${config.BASE_GRADIENT_SIZE}px`,
-                                transition: `opacity ${config.TRANSITION_DURATION}ms ease, width ${config.TRANSITION_DURATION}ms ease, height ${config.TRANSITION_DURATION}ms ease`
-                            }}
-                        ></div>
                     </div>
                 </div>
-            ))}
-            <div className="w-[11rem] h-30 p-1">
-                <div className="w-full h-full bg-primary text-background"> And More...</div>
+            </div>
+
+            {/* Desktop layout with grid */}
+            <div className="hidden md:grid grid-cols-7 grid-rows-6 gap-2">
+                <h2 className="text-lg text-primary font-semibold col-span-1">./About me</h2>
+                <p className="text-primary max-w-xl text-justify col-span-3 col-start-5 italic">
+                    &quot;{description}&quot;
+                </p>
+                {profilePicture && (
+                    <div
+                        className="col-span-3 col-start-5 row-start-2 row-span-5 flex justify-center items-center sepia-100 bg-cover bg-center"
+                        style={{ backgroundImage: `url(${env.STRAPI_URL + profilePicture.url})` }}
+                    >
+                    </div>
+                )}
+                <div className="w-[11rem] h-30 p-1">
+                    <div className="w-full h-full bg-primary text-background"> My Skills</div>
+                </div>
+                {skills.map((skill, index) => (
+                    <div
+                        className="w-[11rem] h-30 p-1 cursor-pointer group"
+                        key={skill.name + index}
+                        ref={(el) => {
+                            if (el) skillRefs.current.set(skill.name, el);
+                        }}
+                    >
+                        <div className="w-full h-full relative overflow-hidden">
+                            <div className="w-full h-full flex justify-center items-center z-10 relative text-background">
+                                <SvgIcon url={skill.icon.url} size={64} className="text-background transition-colors duration-300 absolute -z-10" />
+                                <div className="text-primary group-hover:invisible transition-colors duration-300">
+                                    {skill.name}
+                                </div>
+                            </div>
+                            <div
+                                className="gradient-reveal absolute rounded-full opacity-0 pointer-events-none"
+                                style={{
+                                    background: gradientBackground,
+                                    transform: 'translate(-50%, -50%)',
+                                    width: `${config.BASE_GRADIENT_SIZE}px`,
+                                    height: `${config.BASE_GRADIENT_SIZE}px`,
+                                    transition: `opacity ${config.TRANSITION_DURATION}ms ease, width ${config.TRANSITION_DURATION}ms ease, height ${config.TRANSITION_DURATION}ms ease`
+                                }}
+                            ></div>
+                        </div>
+                    </div>
+                ))}
+                <div className="w-[11rem] h-30 p-1">
+                    <div className="w-full h-full bg-primary text-background"> And More...</div>
+                </div>
             </div>
         </div>
     );
