@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  cms:
+    build:
+      context: ./apps/cms
+      dockerfile: Dockerfile
+    container_name: yapo-cms
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_CLIENT: sqlite
+      DATABASE_FILENAME: .tmp/data.db
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET:-random-jwt-secret-for-dev-only}
+      API_TOKEN_SALT: ${API_TOKEN_SALT:-random-api-token-salt-for-dev-only}
+      TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT:-random-transfer-token-salt-for-dev-only}
+      APP_KEYS: ${APP_KEYS:-random-app-key-for-dev-only}
+    volumes:
+      - cms_data:/app/.tmp
+    ports:
+      - "1337:1337"
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: yapo-web
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      STRAPI_URL: http://cms:1337
+      STRAPI_TOKEN: ${STRAPI_TOKEN}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - cms
+
+volumes:
+  cms_data: 

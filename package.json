@@ -7,6 +7,14 @@
     "apps/*"
   ],
   "license": "GLWTPL",
+  "scripts": {
+    "setup": "node apps/cms/scripts/generate-token.js | grep 'Generated API token:' | sed 's/Generated API token: /STRAPI_TOKEN=/' > apps/web/.env && echo 'STRAPI_URL=http://localhost:1337' >> apps/web/.env && echo 'NODE_ENV=development' >> apps/web/.env",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:setup": "node apps/cms/scripts/generate-token.js | grep 'Generated API token:' | sed 's/Generated API token: /STRAPI_TOKEN=/' > .env && echo 'STRAPI_URL=http://cms:1337' >> .env && echo 'NODE_ENV=production' >> .env"
+  },
   "dependencies": {
     "@apollo/client": "^3.13.3",
     "@react-router/node": "^7.2.0",
