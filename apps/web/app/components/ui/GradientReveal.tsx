@@ -196,16 +196,16 @@ export function GradientReveal({
     return (
         <div
             ref={containerRef}
-            className={`relative overflow-hidden group ${sizeClass} ${className}`}
+            className={`relative group ${sizeClass} ${className}`}
         >
             {/* Visible content (shown by default) */}
-            <div className={`absolute inset-0 z-10 flex items-center justify-center transition-opacity ${(isCtrlPressed || !requireCtrlKey) ? 'group-hover:opacity-0' : ''}`}>
+            <div >
                 {visibleContent}
             </div>
 
             {/* Hidden content (revealed on hover) */}
             {hiddenContent && (
-                <div className={`absolute inset-0 z-20 flex items-center justify-center opacity-0 ${(isCtrlPressed || !requireCtrlKey) ? 'group-hover:opacity-100' : ''} `}>
+                <div className={`absolute inset-0 z-20 opacity-0 ${(isCtrlPressed || !requireCtrlKey) ? 'group-hover:opacity-100' : ''} `}>
                     {hiddenContent}
                 </div>
             )}
@@ -213,7 +213,7 @@ export function GradientReveal({
             {/* Gradient overlay */}
             <div
                 ref={gradientRef}
-                className={`absolute opacity-0 pointer-events-none ${circular ? 'rounded-full' : ''}`}
+                className={`absolute opacity-0 z-10 pointer-events-none ${circular ? 'rounded-full' : ''}`}
                 style={{
                     background: gradientBackground,
                     transform: 'translate(-50%, -50%)',

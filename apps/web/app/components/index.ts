@@ -5,3 +5,4 @@ export * from "./SocialLink";
 export * from "./SocialLinkList";
 export * from "./ErrorDisplay";
 export * from "./SkillsListing";
+export * from "./WorkExperience";
