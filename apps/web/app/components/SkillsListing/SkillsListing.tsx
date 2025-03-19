@@ -157,7 +157,7 @@ export function SkillsListing({
             </div>
             {skills.map((skill, index) => (
                 <div
-                    className="w-[11rem] h-30 p-1 cursor-pointer"
+                    className="w-[11rem] h-30 p-1 cursor-pointer group"
                     key={skill.name + index}
                     ref={(el) => {
                         if (el) skillRefs.current.set(skill.name, el);
@@ -165,8 +165,8 @@ export function SkillsListing({
                 >
                     <div className="w-full h-full relative overflow-hidden">
                         <div className="w-full h-full flex justify-center items-center z-10 relative text-background">
-                            <SvgIcon url={skill.icon.url} size={64} className="mr-2 text-primary" />
-                            <div className="text-background">
+                            <SvgIcon url={skill.icon.url} size={64} className="text-background transition-colors duration-300 absolute -z-10" />
+                            <div className="text-primary group-hover:invisible transition-colors duration-300">
                                 {skill.name}
                             </div>
                         </div>
