@@ -13,29 +13,29 @@ const MOCK_WORK_EXPERIENCES = [
   {
     company: "ITHUB",
     position: "Frontend developer | React & Vue",
-    startDate: "2022",
+    startDate: "22-03-2025",
     endDate: "Present",
     description: "Led frontend development for several high-profile projects using React and Vue. Implemented state management with Redux and Vuex, improved performance by optimizing render cycles, and mentored junior developers. Created and maintained a component library with Storybook that increased development velocity by 30%."
   },
   {
     company: "VK Development Lab",
     position: "Frontend developer | React",
-    startDate: "2021",
-    endDate: "2022",
+    startDate: "10-03-2024",
+    endDate: "22-03-2025",
     description: "Worked on VK's internal tools using React and TypeScript. Developed responsive interfaces for social media analytics dashboards. Implemented data visualization with D3.js and optimized performance for large datasets. Collaborated with UX designers to improve user experience across mobile and desktop platforms."
   },
   {
     company: "SN Inc.",
     position: "Fullstack developer | JavaScript & Python",
-    startDate: "2020",
-    endDate: "2021",
+    startDate: "10-03-2024",
+    endDate: "22-03-2025",
     description: "Built full-stack web applications using Node.js and Python. Developed RESTful APIs with Express and FastAPI, worked with MongoDB and PostgreSQL databases. Implemented CI/CD pipelines with GitHub Actions and deployed applications to AWS. Reduced API response times by 40% through query optimization."
   },
   {
     company: "Business Up",
     position: "Fullstack developer | JavaScript & Python",
-    startDate: "2018",
-    endDate: "2020",
+    startDate: "10-03-2024",
+    endDate: "22-03-2025",
     description: "Developed business intelligence tools and data analysis applications using JavaScript, Python, and R. Created dashboards for financial forecasting and market analysis. Implemented machine learning models for customer segmentation and sales prediction. Built ETL pipelines for data processing from multiple sources including SQL, NoSQL, and CSV."
   }
 ];

@@ -2,13 +2,9 @@
 interface WorkExperience {
     company: string;
     position: string;
-    startDate: string; // Year (e.g., "2021")
-    endDate: string; // Year or "Present" (e.g., "2022" or "Present")
-    duration?: string; // For backward compatibility with CMS
-    description: string; // Detailed information to show on hover
-    logo?: {
-        url: string;
-    };
+    startDate: string;
+    endDate: string;
+    description: string;
 }
 
 interface WorkExperienceListingProps {
@@ -44,23 +40,34 @@ export function WorkExperienceListing({
 }: WorkExperienceListingProps) {
     // Get formatted duration as "X years Y months"
     const getFormattedDuration = (start: string, end: string) => {
-        const startYear = parseInt(start, 10);
-        const endYear = end === 'Present'
-            ? new Date().getFullYear()
-            : parseInt(end, 10);
+        // Parse dates in DD-MM-YYYY format
+        const parseDate = (dateStr: string): Date | null => {
+            if (dateStr === 'Present') {
+                return new Date();
+            }
 
-        if (isNaN(startYear) || isNaN(endYear)) {
+            // Parse DD-MM-YYYY format
+            const parts = dateStr.split('-');
+            if (parts.length === 3) {
+                const day = parseInt(parts[0], 10);
+                const month = parseInt(parts[1], 10) - 1; // JS months are 0-indexed
+                const year = parseInt(parts[2], 10);
+
+                if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+                    return new Date(year, month, day);
+                }
+            }
+            return null;
+        };
+
+        const startDate = parseDate(start);
+        const endDate = parseDate(end);
+
+        if (!startDate || !endDate) {
             return '';
         }
 
         // Calculate total months
-        const currentDate = new Date();
-        const endDate = end === 'Present'
-            ? currentDate
-            : new Date(endYear, 11, 31); // December 31st of end year
-
-        const startDate = new Date(startYear, 0, 1); // January 1st of start year
-
         const monthDiff = (endDate.getFullYear() - startDate.getFullYear()) * 12 +
             (endDate.getMonth() - startDate.getMonth());
 
@@ -81,19 +88,30 @@ export function WorkExperienceListing({
         let totalMonths = 0;
 
         experiences.forEach(exp => {
-            const startYear = parseInt(exp.startDate, 10);
-            const endYear = exp.endDate === 'Present'
-                ? new Date().getFullYear()
-                : parseInt(exp.endDate, 10);
+            // Parse dates in DD-MM-YYYY format
+            const parseDate = (dateStr: string): Date | null => {
+                if (dateStr === 'Present') {
+                    return new Date();
+                }
 
-            if (!isNaN(startYear) && !isNaN(endYear)) {
-                const currentDate = new Date();
-                const endDate = exp.endDate === 'Present'
-                    ? currentDate
-                    : new Date(endYear, 11, 31);
+                // Parse DD-MM-YYYY format
+                const parts = dateStr.split('-');
+                if (parts.length === 3) {
+                    const day = parseInt(parts[0], 10);
+                    const month = parseInt(parts[1], 10) - 1; // JS months are 0-indexed
+                    const year = parseInt(parts[2], 10);
 
-                const startDate = new Date(startYear, 0, 1);
+                    if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
+                        return new Date(year, month, day);
+                    }
+                }
+                return null;
+            };
 
+            const startDate = parseDate(exp.startDate);
+            const endDate = parseDate(exp.endDate);
+
+            if (startDate && endDate) {
                 const monthDiff = (endDate.getFullYear() - startDate.getFullYear()) * 12 +
                     (endDate.getMonth() - startDate.getMonth());
 
@@ -140,7 +158,7 @@ export function WorkExperienceListing({
                                 </div>
                                 {/* Years and duration - Full width on mobile, col-span-2 on larger screens */}
                                 <div className="w-full md:col-span-2 md:pr-4 mb-1 md:mb-0">
-                                    <div className="font-bold text-sm md:text-base">{exp.startDate} - {exp.endDate}</div>
+                                    <div className="font-bold text-sm md:text-base">{exp.startDate.split('-')[2]} - {exp.endDate === 'Present' ? 'Present' : exp.endDate.split('-')[2]}</div>
                                     <div className="text-xs md:text-sm opacity-60 group-hover:opacity-80 transition-opacity duration-500">{formattedDuration}</div>
                                 </div>
 
