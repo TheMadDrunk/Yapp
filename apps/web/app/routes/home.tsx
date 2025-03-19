@@ -7,6 +7,8 @@ import type { CollectionArticles, ProfileInfo } from "../graphql/types";
 import graphqlClient from "~/graphql/client";
 import env from "~/config/env";
 import { GradientRevealExample } from "~/components/ui/GradientRevealExample";
+import { Link } from "react-router";
+import { pages } from "~/routes/path";
 
 // Mock work experience data to use when no CMS data is available
 const MOCK_WORK_EXPERIENCES = [
@@ -132,7 +134,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       </div>
 
       <div className="flex flex-row justify-end w-full">
-        <Button variant="outline">Projects</Button>
+        <Button variant="outline">
+          <Link to={pages.Projects}>Projects</Link>
+        </Button>
       </div>
 
       <SocialLinkList links={socialLinks} />

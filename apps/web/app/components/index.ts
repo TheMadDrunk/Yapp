@@ -6,3 +6,5 @@ export * from "./SocialLinkList";
 export * from "./ErrorDisplay";
 export * from "./SkillsListing";
 export * from "./WorkExperience";
+export * from "./ProjectCard";
+export * from "./ProjectsListing";

@@ -14,5 +14,8 @@ export default [
       index("./routes/articles.tsx"),
       route("/:slug", "routes/articlePage.tsx"),
     ]),
+    ...prefix(paths.projects, [
+      index("./routes/projects.tsx"),
+    ]),
   ]),
 ] satisfies RouteConfig;
