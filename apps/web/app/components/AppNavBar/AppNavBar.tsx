@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import {
   Drawer,
   DrawerTrigger,
@@ -8,8 +8,15 @@ import {
 } from "../ui/Drawer/Drawer";
 import { Menu } from "lucide-react";
 import { pages } from "~/routes/path";
-
+import { useState, useEffect } from "react";
 export function AppNavBar() {
+
+  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  useEffect(() => {
+    setIsOpen(false);
+    console.log(location);
+  }, [location]);
   return (
     <nav className="bg-background text-primary py-2 w-full">
       <div className="hidden sm:block">
@@ -19,7 +26,7 @@ export function AppNavBar() {
             {Object.entries(pages).map(([key, value]) => (
               <Link
                 key={key}
-                className="hover:text-secondary hover:underline transition duration-300"
+                className={`hover:underline transition duration-300 ${location.pathname === value ? "text-secondary font-semibold" : "text-primary"}`}
                 to={value}
               >
                 {key}
@@ -31,7 +38,7 @@ export function AppNavBar() {
       <div className="flex flex-row items-center justify-between px-2 sm:hidden">
         <h1 className="text-2xl font-bold">Yapp</h1>
 
-        <Drawer direction="right">
+        <Drawer direction="right" open={isOpen} onOpenChange={setIsOpen}>
           <DrawerTrigger>
             <Menu />
           </DrawerTrigger>
