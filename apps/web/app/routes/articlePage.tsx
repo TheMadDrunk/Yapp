@@ -8,20 +8,68 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import dracula from "react-syntax-highlighter/dist/esm/styles/prism/darcula";
+import { useLoaderData } from "react-router";
+import { ErrorDisplay } from "~/components";
+// Skeleton component for loading state
+function ArticleSkeleton() {
+    return (
+        <div className="max-w-4xl mx-auto px-4 py-12 animate-pulse">
+            {/* Skeleton Header */}
+            <header className="mb-8">
+                <div className="h-12 bg-secondary/30 rounded-md w-3/4 mb-4"></div>
+                <div className="flex items-center gap-4 mb-6">
+                    <div className="h-5 bg-secondary/30 rounded-md w-32"></div>
+                    <div className="flex gap-2">
+                        <div className="h-5 bg-secondary/30 rounded-md w-16"></div>
+                        <div className="h-5 bg-secondary/30 rounded-md w-16"></div>
+                    </div>
+                </div>
+                <div className="aspect-video w-full mb-8 bg-secondary/30 rounded-md"></div>
+                <div className="h-6 bg-secondary/30 rounded-md w-full"></div>
+            </header>
 
-export async function loader({ params }: Route.LoaderArgs) {
-    const { data } = await graphqlClient.query<{ articles: [Article] }>({
+            {/* Skeleton Article Content */}
+            <div className="space-y-4">
+                <div className="h-5 bg-secondary/30 rounded-md w-full"></div>
+                <div className="h-5 bg-secondary/30 rounded-md w-11/12"></div>
+                <div className="h-5 bg-secondary/30 rounded-md w-4/5"></div>
+                <div className="h-5 bg-secondary/30 rounded-md w-full"></div>
+                <div className="h-5 bg-secondary/30 rounded-md w-3/4"></div>
+
+                <div className="h-32 bg-secondary/20 rounded-md w-full my-8"></div>
+
+                <div className="h-5 bg-secondary/30 rounded-md w-full"></div>
+                <div className="h-5 bg-secondary/30 rounded-md w-5/6"></div>
+                <div className="h-5 bg-secondary/30 rounded-md w-full"></div>
+            </div>
+        </div>
+    );
+}
+
+export async function clientLoader({ params }: Route.LoaderArgs) {
+    const { data, loading, error } = await graphqlClient.query<{ articles: [Article] }>({
         query: GET_SINGLE_ARTICLE,
         variables: { slug: params.slug },
     });
 
     return {
         article: data.articles[0],
+        loading,
+        error,
     };
 }
 
-export default function ArticlePage({ loaderData }: Route.ComponentProps) {
-    const { article } = loaderData;
+export default function ArticlePage() {
+    const { article, loading, error } = useLoaderData<typeof clientLoader>();
+
+    if (loading) {
+        return <ArticleSkeleton />;
+    }
+
+    if (error) {
+        return <ErrorDisplay message={error.message} title="Error Loading Article" />;
+    }
+
     const formattedDate = format(new Date(article.updatedAt), 'MMMM d, yyyy');
 
     return (
@@ -61,10 +109,11 @@ export default function ArticlePage({ loaderData }: Route.ComponentProps) {
                 <Markdown
                     remarkPlugins={[remarkGfm]}
                     components={{
-                        code({ node, inline, className, children, ...props }) {
+                        code(props) {
+                            const { className, children, ...rest } = props;
                             const match = /language-(\w+)/.exec(className || "");
 
-                            return !inline && match ? (
+                            return match ? (
                                 <SyntaxHighlighter
                                     style={dracula}
                                     language={match[1]}
@@ -73,7 +122,7 @@ export default function ArticlePage({ loaderData }: Route.ComponentProps) {
                                     {String(children).replace(/\n$/, "")}
                                 </SyntaxHighlighter>
                             ) : (
-                                <code className={className} {...props}>
+                                <code className={className} {...rest}>
                                     {children}
                                 </code>
                             );

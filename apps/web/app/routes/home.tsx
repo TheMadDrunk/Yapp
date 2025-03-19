@@ -1,11 +1,10 @@
 import type { Route } from "./+types/home";
 import { Button } from "../components/ui/Button";
 import { SocialLinkList } from "~/components/SocialLinkList";
-import { ArticlesCardListing, type ArticleCardProps, ErrorDisplay } from "~/components";
+import { ArticlesCardListing, type ArticleCardProps, ErrorDisplay, SkillsListing } from "~/components";
 import { GET_COLLECTION_ARTICLES, PROFILE_INFO } from "../graphql/queries";
 import type { CollectionArticles, ProfileInfo } from "../graphql/types";
 import graphqlClient from "~/graphql/client";
-import { SvgIcon } from "~/components/ui";
 import env from "~/config/env";
 
 export async function loader() {
@@ -32,7 +31,7 @@ export async function loader() {
     const subTitle = profileInfo.profile.subTitle;
     const description = profileInfo.profile.description;
     const profilePicture = profileInfo.profile.profilePicture;
-    console.log("[profilePicture]", profilePicture);
+    console.log("[profileInfo]", profileInfo);
     const name = profileInfo.profile.name;
 
     return {
@@ -101,30 +100,22 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       <SocialLinkList links={socialLinks} />
       <ArticlesCardListing articles={articles} />
 
-      <div className="mt-10 grid grid-cols-7 grid-rows-6 ">
-        <h2 className="text-lg text-primary font-semibold col-span-1">./About me</h2>
-        <p className="text-primary max-w-xl text-justify col-span-3 col-start-5 italic">
-          &quot;{description}&quot;
-        </p>
-        {profilePicture && (
-          <div className="col-span-3 col-start-5 row-start-2 row-span-5 flex justify-center items-center sepia-100 bg-cover bg-center" style={{ backgroundImage: `url(${env.STRAPI_URL + profilePicture.url})` }}>
-          </div>
-        )}
-        <div className="w-[11rem] h-30 p-1">
-          <div className="w-full h-full bg-primary text-background"> My Skills</div>
-        </div>
-        {skills.map((skill) => (
-          <div className="w-[11rem] h-30 p-1" key={skill.name}>
-            <div className="w-full h-full flex justify-center items-center bg-clip-text hover:bg-primary hover:text-background transition-all duration-300 text-transparent" >
-              <SvgIcon url={skill.icon.url} size={24} className="text-primary" />
-              {skill.name}
-            </div>
-          </div>
-        ))}
-        <div className="w-[11rem] h-30 p-1">
-          <div className="w-full h-full bg-primary text-background"> And More...</div>
-        </div>
-      </div>
+      <SkillsListing
+        skills={skills}
+        description={description}
+        profilePicture={profilePicture}
+        animationConfig={{
+          // Example of customizing the animation parameters
+          THRESHOLD_DISTANCE: 200,
+          OPACITY_CURVE_POWER: 0.2,
+          GRADIENT_COLORS: {
+            PRIMARY_STOP: 20,
+            SECONDARY_STOP: 40,
+            ACCENT_STOP: 60,
+            TRANSPARENT_STOP: 85
+          }
+        }}
+      />
     </div>
   );
 }
