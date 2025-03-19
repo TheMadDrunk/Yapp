@@ -473,6 +473,7 @@ export interface ApiProfileProfile extends Struct.SingleTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    workExperiences: Schema.Attribute.Component<'shared.work-experience', true>;
   };
 }
 

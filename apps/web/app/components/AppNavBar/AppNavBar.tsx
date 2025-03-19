@@ -15,7 +15,6 @@ export function AppNavBar() {
   const location = useLocation();
   useEffect(() => {
     setIsOpen(false);
-    console.log(location);
   }, [location]);
   return (
     <nav className="bg-background text-primary py-2 w-full">

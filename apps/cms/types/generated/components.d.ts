@@ -52,6 +52,23 @@ export interface SharedSocialLink extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedWorkExperience extends Struct.ComponentSchema {
+  collectionName: 'components_shared_work_experiences';
+  info: {
+    displayName: 'WorkExperience';
+  };
+  attributes: {
+    company: Schema.Attribute.String;
+    description: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 255;
+      }>;
+    endDate: Schema.Attribute.Date;
+    position: Schema.Attribute.String;
+    startDate: Schema.Attribute.Date;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
@@ -59,6 +76,7 @@ declare module '@strapi/strapi' {
       'shared.seo': SharedSeo;
       'shared.skills': SharedSkills;
       'shared.social-link': SharedSocialLink;
+      'shared.work-experience': SharedWorkExperience;
     }
   }
 }

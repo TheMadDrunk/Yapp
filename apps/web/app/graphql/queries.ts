@@ -64,6 +64,12 @@ export const PROFILE_INFO = gql`
                 url
             }
         }
+        workExperiences {
+            company
+            position
+            startDate
+            endDate
+        }
     }
 }
 `;

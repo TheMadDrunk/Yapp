@@ -1,11 +1,4 @@
-// Refined interface with start and end dates instead of duration
-interface WorkExperience {
-    company: string;
-    position: string;
-    startDate: string;
-    endDate: string;
-    description: string;
-}
+import { type WorkExperience } from "~/graphql/types";
 
 interface WorkExperienceListingProps {
     experiences: WorkExperience[];
@@ -42,12 +35,12 @@ export function WorkExperienceListing({
     const getFormattedDuration = (start: string, end: string) => {
         // Parse dates in DD-MM-YYYY format
         const parseDate = (dateStr: string): Date | null => {
-            if (dateStr === 'Present') {
+            if (dateStr === null) {
                 return new Date();
             }
 
             // Parse DD-MM-YYYY format
-            const parts = dateStr.split('-');
+            const parts = dateStr.split('/');
             if (parts.length === 3) {
                 const day = parseInt(parts[0], 10);
                 const month = parseInt(parts[1], 10) - 1; // JS months are 0-indexed
@@ -90,16 +83,16 @@ export function WorkExperienceListing({
         experiences.forEach(exp => {
             // Parse dates in DD-MM-YYYY format
             const parseDate = (dateStr: string): Date | null => {
-                if (dateStr === 'Present') {
+                if (dateStr === null) {
                     return new Date();
                 }
 
                 // Parse DD-MM-YYYY format
                 const parts = dateStr.split('-');
                 if (parts.length === 3) {
-                    const day = parseInt(parts[0], 10);
+                    const day = parseInt(parts[2], 10);
                     const month = parseInt(parts[1], 10) - 1; // JS months are 0-indexed
-                    const year = parseInt(parts[2], 10);
+                    const year = parseInt(parts[0], 10);
 
                     if (!isNaN(day) && !isNaN(month) && !isNaN(year)) {
                         return new Date(year, month, day);
@@ -107,7 +100,6 @@ export function WorkExperienceListing({
                 }
                 return null;
             };
-
             const startDate = parseDate(exp.startDate);
             const endDate = parseDate(exp.endDate);
 
@@ -157,8 +149,8 @@ export function WorkExperienceListing({
                                     )}
                                 </div>
                                 {/* Years and duration - Full width on mobile, col-span-2 on larger screens */}
-                                <div className="w-full md:col-span-2 md:pr-4 mb-1 md:mb-0">
-                                    <div className="font-bold text-sm md:text-base">{exp.startDate.split('-')[2]} - {exp.endDate === 'Present' ? 'Present' : exp.endDate.split('-')[2]}</div>
+                                <div className="w-full md:col-span-2 md:pr-4 mb-1 md:mb-0 text-right">
+                                    <div className="font-bold text-sm md:text-base">{exp.startDate.split('-')[0]} - {exp.endDate === null ? 'Present' : exp.endDate.split('-')[0]}</div>
                                     <div className="text-xs md:text-sm opacity-60 group-hover:opacity-80 transition-opacity duration-500">{formattedDuration}</div>
                                 </div>
 

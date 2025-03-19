@@ -48,14 +48,17 @@ export interface Profile {
         url: string;
     };
     socialLinks: ISocialLink[];
-    workExperiences?: {
-        company: string;
-        position: string;
-        startDate: string;
-        endDate: string;
-        description: string;
-    }[];
+    workExperiences?: WorkExperience[];
 }
+
+export interface WorkExperience {
+    company: string;
+    position: string;
+    startDate: string;
+    endDate: string;
+    description: string;
+}
+
 
 export interface ISocialLink {
     name: string;

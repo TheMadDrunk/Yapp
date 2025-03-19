@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_shared_work_experiences",
+  "info": {
+    "displayName": "WorkExperience"
+  },
+  "options": {},
+  "attributes": {
+    "company": {
+      "type": "string"
+    },
+    "position": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 255
+    },
+    "startDate": {
+      "type": "date"
+    },
+    "endDate": {
+      "type": "date"
+    }
+  }
+}
