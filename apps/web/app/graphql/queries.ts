@@ -69,6 +69,7 @@ export const PROFILE_INFO = gql`
             position
             startDate
             endDate
+            description
         }
     }
 }

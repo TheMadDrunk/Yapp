@@ -17,6 +17,7 @@ export async function loader() {
             description: project.description,
             technologies: project.technologies,
             githubLink: project.githubLink,
+            demoLink: project.demoLink,
             images: project.images
         }));
 

@@ -1,5 +1,5 @@
 import { ProjectCard, type ProjectCardProps } from "../ProjectCard";
-import { Github } from "lucide-react";
+import { Github, PlayCircle } from "lucide-react";
 import { Button } from "../ui/Button";
 import type { Project } from "~/graphql/types";
 import env from "~/config/env";
@@ -15,8 +15,6 @@ export function ProjectsListing({ projects }: ProjectsListingProps) {
             </div>
         );
     }
-    console.log("[projects]", projects);
-    console.log("[imgurl]", env.STRAPI_URL + projects[0]);
     return (
         <div className="w-full">
             {projects.map((project, index) => (
@@ -61,6 +59,16 @@ export function ProjectsListing({ projects }: ProjectsListingProps) {
                                         >
                                             <Github className="w-4 h-4 mr-2" />
                                             View on GitHub
+                                        </Button>
+                                    </a>
+                                </div>
+                            )}
+                            {project.demoLink && (
+                                <div className="mt-6">
+                                    <a href={project.demoLink} target="_blank" rel="noopener noreferrer">
+                                        <Button variant="outline" className="border border-primary/20 hover:border-primary px-4 py-2">
+                                            <PlayCircle className="w-4 h-4 mr-2" />
+                                            View Demo
                                         </Button>
                                     </a>
                                 </div>
