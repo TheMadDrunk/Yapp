@@ -63,7 +63,7 @@ export function ProjectsListing({ projects }: ProjectsListingProps) {
                                     >
                                         <Button
                                             variant="outline"
-                                            className="border border-primary/20 hover:border-primary px-4 py-2 rounded-full"
+                                            className="border border-primary/20 hover:border-primary px-4 py-2"
                                         >
                                             <Github className="w-4 h-4 mr-2" />
                                             View on GitHub

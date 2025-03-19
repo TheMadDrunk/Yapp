@@ -43,7 +43,7 @@ export default function Articles({ loaderData }: Route.ComponentProps) {
     }
 
     if (articles.length === 0) {
-        return <div className="w-fit mx-auto px-4 py-8">
+        return <div className="w-full mx-auto px-4 py-8">
             <Timeline>
                 <Timeline.Item>
                     <Timeline.Content className="text-primary container max-w-2xl ml-4 font-bold">No articles found, come back later!</Timeline.Content>
@@ -71,12 +71,15 @@ export default function Articles({ loaderData }: Route.ComponentProps) {
     // Sort months in descending order
     const sortedMonths = Object.entries(groupedArticles).sort((a, b) => b[0].localeCompare(a[0]));
     return (
-        <div className="w-fit mx-auto px-4 py-8">
-            <Timeline>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="mb-16">
+                <h1 className="text-3xl font-mono font-medium text-primary mb-2">... /Articles ...</h1>
+            </div>
+            <Timeline className="w-full mx-auto">
                 {sortedMonths.map(([monthKey, { monthName, articles }]) => (
                     <Timeline.Item key={monthKey}>
                         <Timeline.Point icon={Calendar} className="bg-accent" />
-                        <Timeline.Content className="text-primary container max-w-2xl ml-4">
+                        <Timeline.Content className="text-primary container max-w-6xl ml-4">
                             <Timeline.Time className="text-accent font-bold text-lg">{monthName}</Timeline.Time>
                             <div className="space-y-4">
                                 {articles.map((article) => (
