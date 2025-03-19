@@ -73,3 +73,18 @@ export const PROFILE_INFO = gql`
     }
 }
 `;
+
+export const GET_PROJECTS = gql`
+    query GetProjects {
+        projects {
+            title
+            description
+            technologies
+            githubLink
+            demoLink
+            images {
+                url
+            }
+        }
+    }
+`;

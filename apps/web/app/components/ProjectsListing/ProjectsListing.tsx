@@ -1,15 +1,8 @@
 import { ProjectCard, type ProjectCardProps } from "../ProjectCard";
 import { Github } from "lucide-react";
 import { Button } from "../ui/Button";
-
-export interface Project {
-    title: string;
-    description: string;
-    imageUrls?: string[];
-    technologies: string[];
-    githubLink?: string;
-}
-
+import type { Project } from "~/graphql/types";
+import env from "~/config/env";
 interface ProjectsListingProps {
     projects: Project[];
 }
@@ -22,7 +15,8 @@ export function ProjectsListing({ projects }: ProjectsListingProps) {
             </div>
         );
     }
-
+    console.log("[projects]", projects);
+    console.log("[imgurl]", env.STRAPI_URL + projects[0]);
     return (
         <div className="w-full">
             {projects.map((project, index) => (
@@ -37,7 +31,7 @@ export function ProjectsListing({ projects }: ProjectsListingProps) {
 
                             {/* Technologies */}
                             <div className="flex flex-wrap gap-2 mb-6">
-                                {project.technologies.map((tech, index) => (
+                                {project.technologies.split(',').map((tech, index) => (
                                     <span
                                         key={index}
                                         className="px-3 py-1 text-xs font-medium bg-background border border-primary/20 text-primary inline-block"
@@ -76,14 +70,14 @@ export function ProjectsListing({ projects }: ProjectsListingProps) {
                         {/* Images column with overlapping effect */}
                         <div className="w-full lg:w-1/2 mt-8 lg:mt-0 relative h-[400px] lg:h-[500px] group">
                             {/* Create a floating image arrangement similar to the reference */}
-                            {project.imageUrls && project.imageUrls.length > 0 ? (
+                            {project.images && project.images.length > 0 ? (
                                 <>
                                     {/* Main image */}
-                                    {project.imageUrls[0] && (
+                                    {project.images[0] && (
                                         <div
                                             className="absolute top-0 left-0 w-[90%] h-[90%] z-10 overflow-hidden shadow-lg group-hover:scale-80 transition-all duration-300"
                                             style={{
-                                                backgroundImage: `url(${project.imageUrls[0]})`,
+                                                backgroundImage: `url(${env.STRAPI_URL + project.images[0].url})`,
                                                 backgroundSize: 'cover',
                                                 backgroundPosition: 'center',
                                             }}
@@ -93,14 +87,14 @@ export function ProjectsListing({ projects }: ProjectsListingProps) {
                                     )}
 
                                     {/* Second image if available */}
-                                    {project.imageUrls[1] && (
+                                    {project.images[1] && (
                                         <div
                                             className="absolute top-[5%] group-hover:-right-[40%] right-0 transition-all duration-300 w-[60%] h-[60%] z-20 flex items-center justify-center overflow-hidden bg-background"
 
                                         >
                                             <div className="w-[95%] h-[95%]"
                                                 style={{
-                                                    backgroundImage: `url(${project.imageUrls[1]})`,
+                                                    backgroundImage: `url(${env.STRAPI_URL + project.images[1].url})`,
                                                     backgroundSize: 'cover',
                                                     backgroundPosition: 'center',
                                                 }}
@@ -110,7 +104,7 @@ export function ProjectsListing({ projects }: ProjectsListingProps) {
                                     )}
 
                                     {/* Third image if available */}
-                                    {project.imageUrls[2] && (
+                                    {project.images[2] && (
 
                                         <div
                                             className="absolute group-hover:bottom-[20%] bottom-0 group-hover:-left-[30%] left-[10%] transition-all duration-300 w-[40%] h-[40%] z-30 flex items-center justify-center overflow-hidden bg-background"
@@ -119,7 +113,7 @@ export function ProjectsListing({ projects }: ProjectsListingProps) {
                                             <div
                                                 className=" w-[95%] h-[95%] "
                                                 style={{
-                                                    backgroundImage: `url(${project.imageUrls[2]})`,
+                                                    backgroundImage: `url(${env.STRAPI_URL + project.images[2].url})`,
                                                     backgroundSize: 'cover',
                                                     backgroundPosition: 'center',
                                                 }}>

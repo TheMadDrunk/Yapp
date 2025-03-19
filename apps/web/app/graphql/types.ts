@@ -72,3 +72,18 @@ export interface ProfileInfo {
     profile: Profile;
 }
 
+export interface Project {
+    title: string;
+    description: string;
+    technologies: string;
+    githubLink?: string;
+    demoLink?: string;
+    images: {
+        url: string;
+    }[];
+}
+
+export interface ProjectsData {
+    projects: Project[];
+}
+

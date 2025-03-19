@@ -6,7 +6,6 @@ import { GET_COLLECTION_ARTICLES, PROFILE_INFO } from "../graphql/queries";
 import type { CollectionArticles, ProfileInfo } from "../graphql/types";
 import graphqlClient from "~/graphql/client";
 import env from "~/config/env";
-import { GradientRevealExample } from "~/components/ui/GradientRevealExample";
 import { Link } from "react-router";
 import { pages } from "~/routes/path";
 
