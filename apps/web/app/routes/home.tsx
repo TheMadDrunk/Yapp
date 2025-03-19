@@ -6,6 +6,7 @@ import { GET_COLLECTION_ARTICLES, PROFILE_INFO } from "../graphql/queries";
 import type { CollectionArticles, ProfileInfo } from "../graphql/types";
 import graphqlClient from "~/graphql/client";
 import env from "~/config/env";
+import { GradientRevealExample } from "~/components/ui/GradientRevealExample";
 
 export async function loader() {
   try {
@@ -105,7 +106,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         description={description}
         profilePicture={profilePicture}
         animationConfig={{
-          // Example of customizing the animation parameters
           THRESHOLD_DISTANCE: 200,
           OPACITY_CURVE_POWER: 0.2,
           GRADIENT_COLORS: {
@@ -116,6 +116,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           }
         }}
       />
+      <GradientRevealExample />
     </div>
   );
 }

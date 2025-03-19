@@ -3,12 +3,24 @@ import { GradientReveal } from './GradientReveal';
 export function GradientRevealExample() {
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8">
-            {/* Basic example */}
+            {/* Basic example with Ctrl key requirement */}
             <div className="flex flex-col items-center">
-                <h3 className="font-bold mb-4">Basic Text Reveal</h3>
+                <h3 className="font-bold mb-4">With Ctrl Key</h3>
                 <GradientReveal
                     size="md"
-                    visibleContent={<span className="text-primary text-xl">Hover Me</span>}
+                    requireCtrlKey={true}
+                    visibleContent={<span className="text-primary text-xl">Hold Ctrl + Hover</span>}
+                    hiddenContent={<span className="font-bold text-2xl text-white">Revealed!</span>}
+                />
+            </div>
+
+            {/* Example without Ctrl key requirement */}
+            <div className="flex flex-col items-center">
+                <h3 className="font-bold mb-4">Without Ctrl Key</h3>
+                <GradientReveal
+                    size="md"
+                    requireCtrlKey={false}
+                    visibleContent={<span className="text-primary text-xl">Just Hover</span>}
                     hiddenContent={<span className="font-bold text-2xl text-white">Revealed!</span>}
                 />
             </div>
@@ -18,6 +30,7 @@ export function GradientRevealExample() {
                 <h3 className="font-bold mb-4">Custom Colors</h3>
                 <GradientReveal
                     size="md"
+                    requireCtrlKey={true}
                     visibleContent={<span className="text-primary text-xl">Custom Colors</span>}
                     hiddenContent={<span className="font-bold text-2xl text-white">🎨 Colors!</span>}
                     animationConfig={{
@@ -36,6 +49,7 @@ export function GradientRevealExample() {
                 <GradientReveal
                     size="md"
                     circular={false}
+                    requireCtrlKey={true}
                     visibleContent={<span className="text-primary text-xl">Square Effect</span>}
                     hiddenContent={<span className="font-bold text-2xl text-white">□ No Circle!</span>}
                 />
@@ -46,6 +60,7 @@ export function GradientRevealExample() {
                 <h3 className="font-bold mb-4">Different Animation</h3>
                 <GradientReveal
                     size="md"
+                    requireCtrlKey={false}
                     visibleContent={<span className="text-primary text-xl">Faster Fade</span>}
                     hiddenContent={<span className="font-bold text-2xl text-white">Quick!</span>}
                     animationConfig={{
@@ -60,6 +75,7 @@ export function GradientRevealExample() {
                 <h3 className="font-bold mb-4">Icon Reveal</h3>
                 <GradientReveal
                     size="md"
+                    requireCtrlKey={true}
                     visibleContent={
                         <span className="text-primary text-xl flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

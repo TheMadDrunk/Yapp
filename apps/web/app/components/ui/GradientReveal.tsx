@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 
 // Animation configuration constants with default values
@@ -42,6 +42,8 @@ export interface GradientRevealProps {
     size?: 'sm' | 'md' | 'lg' | 'auto';
     /** Whether to show a circular gradient or not */
     circular?: boolean;
+    /** Whether to require the control key to be pressed to activate */
+    requireCtrlKey?: boolean;
 }
 
 export function GradientReveal({
@@ -50,10 +52,14 @@ export function GradientReveal({
     animationConfig = {},
     className = '',
     size = 'auto',
-    circular = true
+    circular = true,
+    requireCtrlKey = true
 }: GradientRevealProps) {
     // Merge default animation config with any provided overrides
     const config = { ...GRADIENT_ANIMATION_DEFAULTS, ...animationConfig };
+
+    // State to track if control key is pressed
+    const [isCtrlPressed, setIsCtrlPressed] = useState(false);
 
     // Reference to the container element
     const containerRef = useRef<HTMLDivElement>(null);
@@ -71,6 +77,29 @@ export function GradientReveal({
                 ? 'w-48 h-48'
                 : 'w-64 h-64';
 
+    // Effect to track control key state
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Control') {
+                setIsCtrlPressed(true);
+            }
+        };
+
+        const handleKeyUp = (e: KeyboardEvent) => {
+            if (e.key === 'Control') {
+                setIsCtrlPressed(false);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('keyup', handleKeyUp);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('keyup', handleKeyUp);
+        };
+    }, []);
+
     // Effect to set up mouse event listeners
     useEffect(() => {
         const container = containerRef.current;
@@ -80,6 +109,12 @@ export function GradientReveal({
 
         // Handle mouse move across the container
         const handleMouseMove = (e: MouseEvent) => {
+            // Only proceed if ctrl key is pressed or if not required
+            if (requireCtrlKey && !isCtrlPressed) {
+                gradient.style.opacity = '0';
+                return;
+            }
+
             const rect = container.getBoundingClientRect();
             mousePosition.current = {
                 x: e.clientX - rect.left,
@@ -119,6 +154,11 @@ export function GradientReveal({
 
         // Handle mouse enter to ensure gradient is visible
         const handleMouseEnter = () => {
+            // Only proceed if ctrl key is pressed or if not required
+            if (requireCtrlKey && !isCtrlPressed) {
+                return;
+            }
+
             // Start with position in center if not moved yet
             if (!gradient.style.left) {
                 const rect = container.getBoundingClientRect();
@@ -144,7 +184,7 @@ export function GradientReveal({
             container.removeEventListener('mouseenter', handleMouseEnter);
             container.removeEventListener('mouseleave', handleMouseLeave);
         };
-    }, [config.THRESHOLD_DISTANCE, config.BASE_GRADIENT_SIZE, config.MAX_SIZE_INCREASE, config.OPACITY_CURVE_POWER]);
+    }, [config.THRESHOLD_DISTANCE, config.BASE_GRADIENT_SIZE, config.MAX_SIZE_INCREASE, config.OPACITY_CURVE_POWER, isCtrlPressed, requireCtrlKey]);
 
     // Build the gradient background based on configuration
     const gradientBackground = `radial-gradient(circle closest-side, 
@@ -156,16 +196,16 @@ export function GradientReveal({
     return (
         <div
             ref={containerRef}
-            className={`relative overflow-hidden cursor-pointer group ${sizeClass} ${className}`}
+            className={`relative overflow-hidden group ${sizeClass} ${className}`}
         >
             {/* Visible content (shown by default) */}
-            <div className="absolute inset-0 z-10 flex items-center justify-center transition-opacity duration-300 ease-in-out group-hover:opacity-0">
+            <div className={`absolute inset-0 z-10 flex items-center justify-center transition-opacity ${(isCtrlPressed || !requireCtrlKey) ? 'group-hover:opacity-0' : ''}`}>
                 {visibleContent}
             </div>
 
             {/* Hidden content (revealed on hover) */}
             {hiddenContent && (
-                <div className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+                <div className={`absolute inset-0 z-20 flex items-center justify-center opacity-0 ${(isCtrlPressed || !requireCtrlKey) ? 'group-hover:opacity-100' : ''} `}>
                     {hiddenContent}
                 </div>
             )}
