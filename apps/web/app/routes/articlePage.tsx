@@ -46,7 +46,7 @@ function ArticleSkeleton() {
     );
 }
 
-export async function clientLoader({ params }: Route.LoaderArgs) {
+export async function loader({ params }: Route.LoaderArgs) {
     const { data, loading, error } = await graphqlClient.query<{ articles: [Article] }>({
         query: GET_SINGLE_ARTICLE,
         variables: { slug: params.slug },
@@ -59,8 +59,8 @@ export async function clientLoader({ params }: Route.LoaderArgs) {
     };
 }
 
-export default function ArticlePage() {
-    const { article, loading, error } = useLoaderData<typeof clientLoader>();
+export default function ArticlePage({ loaderData }: Route.ComponentProps) {
+    const { article, loading, error } = loaderData;
 
     if (loading) {
         return <ArticleSkeleton />;

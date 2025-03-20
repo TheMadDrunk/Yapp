@@ -86,25 +86,28 @@ export default function Articles({ loaderData }: Route.ComponentProps) {
                                     <div key={article.slug} className="p-1 hover:border-accent border-1 hover:border-solid border-dashed border-transparent transition-all duration-400">
                                         <Timeline.Title className="text-primary">{article.title}</Timeline.Title>
                                         <Timeline.Time className="text-accent text-sm">{new Date(article.updatedAt).toLocaleDateString()}</Timeline.Time>
+
                                         <Timeline.Body className="text-primary">
-                                            <p className="text-sm pb-2">{article.description}</p>
-                                            <div className="flex gap-1">
-                                                {article.tags.map(({ tag }) => (
-                                                    <span
-                                                        key={tag}
-                                                        className="text-secondary text-sm font-bold"
-                                                    >
-                                                        #{tag}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                            <div className="flex justify-end">
-                                                <Button variant="link">
-                                                    <Link className="flex items-center" to={linkToArticles(article.slug)}>Read More <ArrowRight className="w-4 h-4" />
-                                                    </Link>
-                                                </Button>
-                                            </div>
+                                            {article.description}
                                         </Timeline.Body>
+
+                                        <div className="flex gap-1 mt-2">
+                                            {article.tags.map(({ tag }) => (
+                                                <span
+                                                    key={tag}
+                                                    className="text-secondary text-sm font-bold"
+                                                >
+                                                    #{tag}
+                                                </span>
+                                            ))}
+                                        </div>
+
+                                        <div className="flex justify-end mt-2">
+                                            <Button variant="link">
+                                                <Link className="flex items-center" to={linkToArticles(article.slug)}>Read More <ArrowRight className="w-4 h-4" />
+                                                </Link>
+                                            </Button>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
