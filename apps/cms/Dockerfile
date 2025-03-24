@@ -10,8 +10,8 @@ RUN apk add --no-cache sqlite
 COPY . .
 
 # Install production dependencies only
-RUN npm install --production
-
+RUN yarn install --production
+RUN yarn build
 
 # Set production environment
 ENV NODE_ENV=production
