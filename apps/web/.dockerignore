@@ -2,7 +2,6 @@ node_modules
 .env
 .env.local
 .git
-build
 .react-router
 .vscode
 README.md

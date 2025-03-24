@@ -1,25 +1,23 @@
 FROM node:20-alpine
 
-# Install dependencies required for building SQLite
-RUN apk add --no-cache build-base python3 sqlite
-
 # Create app directory
 WORKDIR /app
 
-# Copy package.json and yarn.lock files
-COPY package.json yarn.lock ./
+# Install SQLite for runtime support
+RUN apk add --no-cache sqlite
 
-# Install dependencies
-RUN yarn install
-
-# Copy source files
+# Copy package files
 COPY . .
 
-# Build Strapi
-RUN yarn build
+# Install production dependencies only
+RUN npm install --production
 
-# Expose the port Strapi runs on
+
+# Set production environment
+ENV NODE_ENV=production
+
+# Expose Strapi port
 EXPOSE 1337
 
 # Start Strapi
-CMD ["yarn", "start"] 
+CMD ["yarn", "start"]
