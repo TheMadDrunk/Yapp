@@ -19,7 +19,7 @@ Yapp is a portfolio application, started it to explore the use of React Router a
   - GraphQL API
 
 - **Developer Tools**: 
-  - Yarn workspaces
+  - Yarn workspaces (v4.4.1)
   - Docker
   - TypeScript v4
   - Prettier
@@ -36,7 +36,7 @@ yapo/
 ## Getting Started
 
 ### Prerequisites
-- Node.js v20.18.3+
+- Node.js v22+
 
 ### Setup (Local Development)
 
@@ -56,7 +56,7 @@ cd apps/cms && yarn develop
 
 ### Docker Setup
 
-The project can also be run with Docker:
+The project uses Docker with multi-stage builds for optimal container sizes:
 
 ```bash
 # Install dependencies
@@ -75,6 +75,17 @@ yarn docker:up
 Then access:
 - Frontend: http://localhost:3000
 - CMS: http://localhost:1337
+
+The web application's Docker setup:
+- Uses Node 22 Alpine with Yarn 4.4.1
+- Builds in multiple stages (development dependencies, production dependencies, build)
+- Automatically handles environment variables through a custom entrypoint script
+
+The CMS Docker setup:
+- Uses Node 22 Alpine
+- Includes SQLite for database support
+- Runs a setup script to configure environment variables
+- Exposes port 1337
 
 ```bash
 # View logs
@@ -120,6 +131,7 @@ You can deploy this project using Docker:
    yarn docker:up
    ```
 3. Use a reverse proxy like Nginx to expose the services
+4. The Docker containers will automatically handle environment variable configuration at runtime
 
 ## License
 
