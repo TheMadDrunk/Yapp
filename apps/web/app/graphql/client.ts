@@ -2,8 +2,7 @@ import { ApolloClient, InMemoryCache } from "@apollo/client/core";
 import type { NormalizedCacheObject } from "@apollo/client/core";
 import env from "~/config/env";
 
-const isDevelopment = process.env.NODE_ENV === "dev";
-
+const isDevelopment = process.env.NODE_ENV === "development";
 const graphqlClient = new ApolloClient<NormalizedCacheObject>({
     uri: env.STRAPI_URL + "/graphql",
     cache: isDevelopment

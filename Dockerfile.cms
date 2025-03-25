@@ -7,7 +7,7 @@ WORKDIR /app
 RUN apk add --no-cache sqlite
 
 # Copy package files
-COPY . .
+COPY apps/cms/ .
 
 # Install production dependencies only
 RUN yarn install --production

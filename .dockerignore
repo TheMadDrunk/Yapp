@@ -1,0 +1,43 @@
+# Dependencies
+node_modules
+**/node_modules
+
+# Build directories
+**/build
+**/dist
+**/.next
+**/.nuxt
+**/.output
+
+# Cache
+**/.cache
+.yarn/cache
+.npm
+
+# Logs
+**/logs
+**/*.log
+
+# Environment variables
+**/.env
+**/.env.*
+!**/.env.example
+
+# Miscellaneous
+.git
+.github
+**/.DS_Store
+**/.gitignore
+**/.gitattributes
+**/README.md
+**/LICENSE
+**/.editorconfig
+
+# Docker files
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Development configs
+.vscode
+.idea 
