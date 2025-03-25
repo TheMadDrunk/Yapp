@@ -1,0 +1,57 @@
+FROM node:22-alpine AS development-dependencies-env
+# Enable Corepack to use the correct Yarn version
+RUN corepack enable && corepack prepare yarn@4.4.1 --activate
+
+# Copy the root workspace files
+COPY package.json yarn.lock ./
+COPY .yarnrc.yml ./.yarnrc.yml
+# Copy the web app package.json
+COPY apps/web/package.json ./apps/web/
+WORKDIR /app
+RUN yarn install
+
+FROM node:22-alpine AS production-dependencies-env
+# Enable Corepack to use the correct Yarn version
+RUN corepack enable && corepack prepare yarn@4.4.1 --activate
+
+# Copy the root workspace files
+COPY package.json yarn.lock ./
+COPY .yarnrc.yml ./.yarnrc.yml
+# Copy the web app package.json
+COPY apps/web/package.json ./apps/web/
+WORKDIR /app
+RUN yarn workspaces focus @yapp/web --production
+
+FROM node:22-alpine AS build-env
+# Enable Corepack to use the correct Yarn version
+RUN corepack enable && corepack prepare yarn@4.4.1 --activate
+
+# Copy all source files
+COPY . .
+COPY --from=development-dependencies-env /app/node_modules ./node_modules
+WORKDIR /app
+RUN yarn workspace @yapp/web build
+
+FROM node:22-alpine
+# Enable Corepack to use the correct Yarn version
+RUN corepack enable && corepack prepare yarn@4.4.1 --activate
+
+# Copy the root workspace files
+COPY package.json yarn.lock ./
+COPY .yarnrc.yml ./.yarnrc.yml
+# Copy the web app package.json
+COPY apps/web/package.json ./apps/web/
+COPY --from=production-dependencies-env /app/node_modules ./node_modules
+COPY --from=build-env /app/apps/web/build ./apps/web/build
+WORKDIR /app/apps/web
+
+# Create a default .env file if none exists
+COPY apps/web/.env.example ./.env.example
+RUN cp ./.env.example ./.env
+
+# Make the entrypoint script that will handle env vars
+COPY apps/web/docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["yarn", "start"] 
