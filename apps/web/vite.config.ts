@@ -13,10 +13,5 @@ export default defineConfig(({ mode }) => {
     optimizeDeps: {
       exclude: ["@apollo/client"],
     },
-    // Provide environment variables to the app
-    define: {
-      // Expose NODE_ENV if needed for server-side rendering
-      'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV)
-    }
   };
 });

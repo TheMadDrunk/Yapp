@@ -24,4 +24,4 @@ update_env() {
 update_env
 
 # Execute the main command
-exec "$@" 
+exec "$@"
