@@ -19,7 +19,7 @@ const graphqlClient = new ApolloClient<NormalizedCacheObject>({
             },
         })
         : new InMemoryCache(),
-    ssrMode: true,
+    ssrMode: !isDevelopment,
     headers: {
         Authorization: `Bearer ${env.STRAPI_TOKEN}`,
     },
