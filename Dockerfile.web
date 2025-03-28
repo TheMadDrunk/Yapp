@@ -1,33 +1,60 @@
-FROM node:22-alpine
+FROM node:22-alpine AS builder
+
+# Set environment variables
+ENV NODE_ENV=production
 
 # Enable Corepack to use the correct Yarn version
 RUN corepack enable && corepack prepare yarn@4.4.1 --activate
 
 WORKDIR /app
 
-# Copy package.json first to leverage Docker cache
+# Copy only package files first to leverage Docker cache
 COPY package.json yarn.lock* .yarnrc.yml* ./
-
-# Install the missing date-fns dependency and other dependencies
-# RUN yarn add date-fns && yarn install
-
-# Copy the rest of the app
-COPY apps/web .
+# Create .yarn directory if it exists in the project
+COPY apps/web/.yarn ./.yarn
 
 # Install dependencies
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
-# Create a default .env file if none exists
+# Copy the rest of the app
+COPY apps/web/ ./
+
+# Build the application
+RUN yarn build
+
+# Second stage: runtime
+FROM node:22-alpine AS runtime
+
+# Set environment variables
+ENV NODE_ENV=production
+
+# Enable Corepack for the correct Yarn version
+RUN corepack enable && corepack prepare yarn@4.4.1 --activate && \
+    apk add --no-cache tini
+
+WORKDIR /app
+
+# Copy package files and build output
+COPY --from=builder /app/package.json /app/yarn.lock* /app/.yarnrc.yml* ./
+COPY --from=builder /app/.yarn ./.yarn
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/build ./build
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/types ./types
+COPY --from=builder /app/vite.config.ts ./
+COPY --from=builder /app/react-router.config.ts ./
+COPY --from=builder /app/tsconfig.json ./
+COPY --from=builder /app/docker-entrypoint.sh ./
+
+# Copy environment files
 COPY apps/web/.env.example ./.env
 
+# Make entrypoint script executable
 RUN chmod +x docker-entrypoint.sh
 
-# Add tini as init process
-RUN apk add --no-cache tini
-
-# Use tini with docker-entrypoint.sh script
+# Use tini as init process
 ENTRYPOINT ["/sbin/tini", "--", "/app/docker-entrypoint.sh"]
-CMD ["sh", "-c", "yarn build && yarn start"]
+CMD ["yarn", "start"]
 
 # Note: To connect to services on the host machine, use host.docker.internal instead of localhost
 # Example: When running the container, use --env VITE_STRAPI_URL=http://host.docker.internal:1337
