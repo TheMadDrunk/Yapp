@@ -2,7 +2,6 @@ import type { Route } from "./+types/articlePage";
 import { GET_SINGLE_ARTICLE } from "~/graphql/queries";
 import type { Article } from "~/graphql/types";
 import graphqlClient from "~/graphql/client";
-import { format } from "date-fns";
 import env from "~/config/env";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -69,7 +68,11 @@ export default function ArticlePage({ loaderData }: Route.ComponentProps) {
         return <ErrorDisplay message={error.message} title="Error Loading Article" />;
     }
 
-    const formattedDate = format(new Date(article.updatedAt), 'MMMM d, yyyy');
+    const formattedDate = new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    }).format(new Date(article.updatedAt));
 
     return (
         <div className="max-w-4xl mx-auto px-4 py-12">
