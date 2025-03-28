@@ -1,25 +1,31 @@
-FROM node:20-alpine
+# Stage 1: Build
+FROM node:22-alpine AS builder
 
-# Create app directory
+# Set working directory
 WORKDIR /app
 
-# Install SQLite for runtime support
-RUN apk add --no-cache sqlite
+# Install dependencies (only production dependencies)
+COPY apps/cms/package.json apps/cms/package-lock.json ./
+RUN npm ci --omit=dev
 
-# Copy package files
+# Copy application files
 COPY apps/cms/ .
 
-# Copy and make script executable
-RUN chmod +x ./scripts/setup-cms-env.js
+# Run setup script
+RUN chmod +x ./scripts/setup-cms-env.js && node ./scripts/setup-cms-env.js
 
-# Run setup script to create environment variables
-RUN node ./scripts/setup-cms-env.js
-
-# Install production dependencies and build
-RUN npm install esbuild && npm ci
+# Build Strapi admin panel
 RUN npm run build
 
-# Set production environment
+# Stage 2: Production runtime
+FROM node:22-alpine
+
+WORKDIR /app
+
+# Copy built files from the builder stage
+COPY --from=builder /app ./
+
+# Ensure production environment
 ENV NODE_ENV=production
 
 # Expose Strapi port
