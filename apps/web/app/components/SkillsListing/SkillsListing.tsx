@@ -263,7 +263,7 @@ export function SkillsListing({
                 </p>
                 {profilePicture && (
                     <div
-                        className="col-span-3 col-start-5 row-start-2 row-span-5 flex justify-center items-center sepia-100 bg-cover bg-center"
+                        className="col-span-3 col-start-5 row-start-2 row-span-5 flex justify-center items-center bg-cover bg-center"
                         style={{ backgroundImage: `url(${env.STRAPI_URL + profilePicture.url})` }}
                     >
                     </div>
