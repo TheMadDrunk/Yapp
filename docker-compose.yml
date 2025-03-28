@@ -1,31 +1,35 @@
 version: '3'
 
 services:
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile.web
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      # Add any additional environment variables here
-    depends_on:
-      - cms
-    restart: unless-stopped
-
   cms:
     build:
       context: .
       dockerfile: Dockerfile.cms
     ports:
       - "1337:1337"
-    environment:
-      - NODE_ENV=production
-      # Add any additional environment variables here
     volumes:
-      - cms_data:/app/database
-    restart: unless-stopped
+      - cms_data:/app/.tmp
+    networks:
+      - app_network
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    ports:
+      - "3000:3000"
+    depends_on:
+      - cms
+    environment:
+      - VITE_STRAPI_URL=http://cms:1337
+      - VITE_STRAPI_TOKEN=ee51ebb7644bcce86c565ded48d468b1f8f52828645f502d9350d96d54a42fceea4ef09af70557a4866a7a59354daf4243f7a39b11e0ad768723d624e5c4da15e36984ed8e78d4f4266f6ace034de8fd2cc76e8dbb977c631387c8dc0ef59d0fe90ecd29ecc54f12c30ac1f7ab7d9c8c673c8a2a5dcf8edb17670993fa985673
+      - VITE_NODE_ENV=development
+    networks:
+      - app_network
 
 volumes:
-  cms_data: # This will persist the CMS database between container restarts 
+  cms_data:
+
+networks:
+  app_network:
+    driver: bridge

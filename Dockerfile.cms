@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:20-alpine
 
 # Create app directory
 WORKDIR /app
@@ -15,9 +15,9 @@ RUN chmod +x ./scripts/setup-cms-env.js
 # Run setup script to create environment variables
 RUN node ./scripts/setup-cms-env.js
 
-# Install production dependencies only
-RUN yarn install --production
-RUN yarn build
+# Install production dependencies and build
+RUN npm install esbuild && npm ci
+RUN npm run build
 
 # Set production environment
 ENV NODE_ENV=production
@@ -26,4 +26,4 @@ ENV NODE_ENV=production
 EXPOSE 1337
 
 # Start Strapi
-CMD ["yarn", "start"]
+CMD ["npm", "run", "start"]
