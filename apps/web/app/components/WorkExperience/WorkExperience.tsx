@@ -127,7 +127,7 @@ export function WorkExperienceListing({
                     return (
                         <div
                             key={`${exp.company}-${index}`}
-                            className="w-full py-3 md:py-4 relative overflow-hidden group transition-all duration-300 hover:bg-primary/5 cursor-pointer"
+                            className="w-full py-3 md:py-4 relative overflow-hidden group transition-all duration-300 hover:bg-primary/5 cursor-pointer text-primary"
                         >
                             {/* Mobile-friendly grid that stacks on small screens */}
                             <div className="flex flex-col md:grid md:grid-cols-7 gap-1 md:gap-2 items-start md:items-center px-4 md:px-6 relative z-10 group-hover:text-background transition-colors duration-500">
