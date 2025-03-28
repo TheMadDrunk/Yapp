@@ -8,7 +8,6 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import dracula from "react-syntax-highlighter/dist/esm/styles/prism/darcula";
-import { useLoaderData } from "react-router";
 import { ErrorDisplay } from "~/components";
 // Skeleton component for loading state
 function ArticleSkeleton() {

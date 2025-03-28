@@ -5,7 +5,7 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
-} from "../ui/Drawer/Drawer";
+} from "~/components/ui";
 import { Menu } from "lucide-react";
 import { pages } from "~/routes/path";
 import { useState, useEffect } from "react";
