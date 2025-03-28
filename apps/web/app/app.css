@@ -2,10 +2,31 @@
 @plugin "@tailwindcss/typography";
 @theme {
   --font-mono: "Fira Mono", ui-monospace, monospace;
+  /* Theme 1: Red Wine */
   --color-primary: #4c2215;
   --color-secondary: #981d26;
   --color-accent: #e5a631;
   --color-background: #f2e1c5;
+  /* Theme 2: Forest Glade */
+  /* --color-primary: #225733;
+  --color-secondary: #66a182;
+  --color-accent: #d9ad3d;
+  --color-background: #f0f8e2; */
+  /* Theme 3: Desert Bloom */
+  /* --color-primary: #a85532;
+  --color-secondary: #d18975;
+  --color-accent: #f5c767;
+  --color-background: #f8f0e3; */
+  /* Theme 4: Midnight Plum */
+  /* --color-primary: #361e38;
+  --color-secondary: #6a4c93;
+  --color-accent: #e0aaff;
+  --color-background: #f3eef7; */
+  /* Theme 5: Spice Market */
+  /* --color-primary: #c25238;
+  --color-secondary: #e6a756;
+  --color-accent: #78c2a4;
+  --color-background: #f9f0e2; */
 }
 
 body {
