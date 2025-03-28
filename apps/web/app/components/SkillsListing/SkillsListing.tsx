@@ -105,7 +105,8 @@ export function SkillsListing({
             // For each skill container, update its gradient
             skillRefs.current.forEach((container) => {
                 const gradient = container.querySelector('.gradient-reveal') as HTMLElement;
-                if (!gradient) return;
+                const svgIcon = container.querySelector('.svg-icon') as HTMLElement;
+                if (!gradient || !svgIcon) return;
 
                 // Calculate distance between mouse and the center of this container
                 const containerRect = container.getBoundingClientRect();
@@ -117,11 +118,15 @@ export function SkillsListing({
                 const dy = mousePosition.current.y - skillCenterY;
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
-                // Calculate opacity based on distance (closer = more visible)
-                let opacity = 0;
+                // Calculate opacity based on distance (closer = more visible for gradient, less visible for icon)
+                let gradientOpacity = 0;
+                let iconOpacity = 1; // Default full opacity for icon
+
                 if (distance < config.THRESHOLD_DISTANCE) {
-                    // Use a non-linear curve for smoother transition
-                    opacity = Math.pow(1 - (distance / config.THRESHOLD_DISTANCE), config.OPACITY_CURVE_POWER);
+                    // Use a non-linear curve for smoother transition for the gradient
+                    gradientOpacity = Math.pow(1 - (distance / config.THRESHOLD_DISTANCE), config.OPACITY_CURVE_POWER);
+                    // Linear transition for the icon (closer = more transparent)
+                    iconOpacity = distance / config.THRESHOLD_DISTANCE;
 
                     // Position the gradient relative to the skill container
                     const relativeX = mousePosition.current.x - (containerRect.left - rect.left);
@@ -137,7 +142,8 @@ export function SkillsListing({
                     gradient.style.height = `${size}px`;
                 }
 
-                gradient.style.opacity = opacity.toString();
+                gradient.style.opacity = gradientOpacity.toString();
+                svgIcon.style.opacity = iconOpacity.toString();
             });
         };
 
@@ -145,8 +151,12 @@ export function SkillsListing({
         const handleMouseLeave = () => {
             skillRefs.current.forEach((container) => {
                 const gradient = container.querySelector('.gradient-reveal') as HTMLElement;
+                const svgIcon = container.querySelector('.svg-icon') as HTMLElement;
                 if (gradient) {
                     gradient.style.opacity = '0';
+                }
+                if (svgIcon) {
+                    svgIcon.style.opacity = '1'; // Reset icon opacity
                 }
             });
         };
@@ -271,8 +281,12 @@ export function SkillsListing({
                     >
                         <div className="w-full h-full relative overflow-hidden">
                             <div className="w-full h-full flex justify-center items-center z-10 relative text-background">
-                                <SvgIcon url={skill.icon.url} size={64} className="text-background transition-colors duration-300 absolute -z-10" />
-                                <div className="text-primary group-hover:invisible transition-colors duration-300">
+                                <SvgIcon
+                                    url={skill.icon.url}
+                                    size={64}
+                                    className="svg-icon transition-opacity absolute text-primary"
+                                />
+                                <div className="transition-colors duration-300 -z-10 text-background">
                                     {skill.name}
                                 </div>
                             </div>
