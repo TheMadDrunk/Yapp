@@ -88,7 +88,8 @@ docker run -d -p 1337:1337 --name yapp-cms yapp-cms
 docker run -d -p 3000:3000 --name yapp-web \
   -e VITE_STRAPI_URL=http://yapp-cms:1337 \
   -e VITE_STRAPI_TOKEN="your_strapi_token" \
-  -e VITE_NODE=production \
+  -e VITE_NODE_ENV=production \
+  -e VITE_THEME=red-wine \
   yapp-web
 ```
 
@@ -112,23 +113,34 @@ The project uses environment variables for configuration:
   - Required variables include:
     - `VITE_STRAPI_TOKEN`: API token for Strapi CMS access
     - `VITE_STRAPI_URL`: URL to the Strapi CMS instance
-    - `VITE_NODE`: Environment mode (development/production)
+    - `VITE_NODE_ENV`: Environment mode (development/production)
+    - `VITE_THEME`: Theme selection (see Customization section)
 
 ## Customization
 
-- Modify whathever you want in the codebase.
-- Theme colors and fonts can be easily modified through CSS variables in `apps/web/app/app.css`
+### Theme System
 
-```css
-/* Example of theme variables in app.css */
-@theme {
-  --font-mono: "Fira Mono", ui-monospace, monospace;
-  --color-primary: #4c2215;
-  --color-secondary: #981d26;
-  --color-accent: #e5a631;
-  --color-background: #f2e1c5;
-}
+The application includes a server-side rendered theme system with 5 pre-configured themes:
+
+1. **Red Wine** (`VITE_THEME=red-wine`): Burgundy and gold tones
+2. **Forest Glade** (`VITE_THEME=forest-glade`): Green and nature-inspired
+3. **Desert Bloom** (`VITE_THEME=desert-bloom`): Terracotta and sand
+4. **Midnight Plum** (`VITE_THEME=midnight-plum`): Deep purple with lavender
+5. **Spice Market** (`VITE_THEME=spice-market`): Vibrant orange with teal
+
+To change the theme, update the `VITE_THEME` variable in your `.env` file:
+
+```bash
+# apps/web/.env
+VITE_THEME=forest-glade
 ```
+
+Themes are applied server-side to prevent flash of unstyled content during page load.
+
+### Custom Code Changes
+
+- Modify whatever you want in the codebase.
+- Theme colors are now controlled via environment variables, see `apps/web/app/utils/theme.ts` for the theme definitions.
 
 ## License
 
