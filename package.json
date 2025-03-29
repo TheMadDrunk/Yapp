@@ -8,12 +8,7 @@
   ],
   "license": "GLWTPL",
   "scripts": {
-    "strapi-env": "node apps/cms/scripts/setup-cms-env.js",
-    "docker:setup": "./setup-docker.sh",
-    "docker:build": "docker-compose build",
-    "docker:up": "docker-compose up -d",
-    "docker:down": "docker-compose down",
-    "docker:logs": "docker-compose logs -f"
+    "strapi-env": "node apps/cms/scripts/setup-cms-env.js"
   },
   "dependencies": {
     "@apollo/client": "^3.13.3",
