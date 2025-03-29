@@ -1,7 +1,7 @@
 import type { Route } from "./+types/home";
 import { Button } from "../components/ui/Button";
 import { SocialLinkList } from "~/components/SocialLinkList";
-import { ArticlesCardListing, type ArticleCardProps, ErrorDisplay, SkillsListing, WorkExperienceListing } from "~/components";
+import { ArticlesCardListing, type ArticleCardProps, ErrorDisplay, SkillsListing, WorkExperienceListing, Quote } from "~/components";
 import { GET_COLLECTION_ARTICLES, PROFILE_INFO } from "../graphql/queries";
 import type { CollectionArticles, ProfileInfo } from "../graphql/types";
 import graphqlClient from "~/graphql/client";
@@ -34,6 +34,7 @@ export async function loader() {
     const description = profileInfo.profile.description;
     const profilePicture = profileInfo.profile.profilePicture;
     const name = profileInfo.profile.name;
+    const quote = profileInfo.profile.favoriteQuote;
 
     // Use mock data if no work experiences are available from CMS
     const workExperiences = profileInfo.profile.workExperiences || [];
@@ -48,6 +49,7 @@ export async function loader() {
       profilePicture,
       name,
       workExperiences,
+      quote,
       error: null
     };
   } catch (error) {
@@ -76,7 +78,7 @@ export function meta({ data }: Route.MetaArgs) {
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  const { socialLinks, articles, skills, title, subTitle, description, profilePicture, name, workExperiences, error } = loaderData;
+  const { socialLinks, articles, skills, title, subTitle, description, profilePicture, name, workExperiences, error, quote } = loaderData;
   if (error) {
     return <ErrorDisplay message={error} title="Error Loading Portfolio" />;
   }
@@ -122,7 +124,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         }}
       />
 
-      <WorkExperienceListing experiences={workExperiences} />
+      <div className="flex flex-col items-center justify-center">
+        <Quote quote={quote?.body!} author={quote?.name!} />
+      </div>
     </div>
   );
 }

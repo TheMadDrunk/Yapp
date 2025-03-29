@@ -8,3 +8,4 @@ export * from "./SkillsListing";
 export * from "./WorkExperience";
 export * from "./ProjectCard";
 export * from "./ProjectsListing";
+export * from "./Quote";
