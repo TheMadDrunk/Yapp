@@ -5,7 +5,9 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "react-router";
+import { getCurrentTheme } from "./utils/theme";
 
 import type { Route } from "./+types/root";
 import "./app.css";
@@ -23,7 +25,15 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
+// Add loader to provide theme data
+export const loader = () => {
+  const theme = getCurrentTheme();
+  return { theme };
+};
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  const { theme } = useLoaderData<{ theme: ReturnType<typeof getCurrentTheme> }>();
+
   return (
     <html lang="en">
       <head>
@@ -31,6 +41,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            :root {
+              --color-primary: ${theme.primary};
+              --color-secondary: ${theme.secondary};
+              --color-accent: ${theme.accent};
+              --color-background: ${theme.background};
+            }
+          `
+        }} />
       </head>
       <body>
         {children}
