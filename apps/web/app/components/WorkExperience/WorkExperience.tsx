@@ -119,6 +119,9 @@ export function WorkExperienceListing({
 
     return (
         <div className="mt-8 md:mt-16 mb-8 md:mb-12">
+            <div className="border-primary pl-4 mt-4 mb-4">
+                <h2 className="text-lg text-primary font-semibold">./Work</h2>
+            </div>
             <div className="grid grid-cols-1 divide-y divide-primary/10 border-t border-b border-primary/20">
                 {experiences.map((exp, index) => {
                     // Format the duration and year range

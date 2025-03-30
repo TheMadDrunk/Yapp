@@ -7,7 +7,7 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "react-router";
-import { getCurrentTheme } from "./utils/theme";
+import { getCurrentTheme } from "~/utils/theme";
 
 import type { Route } from "./+types/root";
 import "./app.css";

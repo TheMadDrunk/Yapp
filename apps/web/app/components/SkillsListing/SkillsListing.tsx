@@ -5,7 +5,7 @@ import env from "~/config/env";
 // Animation configuration constants
 const ANIMATION_CONFIG = {
     // Distance threshold in pixels where gradient starts to appear
-    THRESHOLD_DISTANCE: 180,
+    THRESHOLD_DISTANCE: 300,
     // Base size of the gradient in pixels
     BASE_GRADIENT_SIZE: 200,
     // Maximum additional size increase when cursor is close
@@ -268,44 +268,48 @@ export function SkillsListing({
                     >
                     </div>
                 )}
-                <div className="w-[11rem] h-30 p-1">
-                    <div className="w-full h-full bg-primary text-background"> My Skills</div>
-                </div>
-                {skills.map((skill, index) => (
-                    <div
-                        className="w-[11rem] h-30 p-1 cursor-pointer group"
-                        key={skill.name + index}
-                        ref={(el) => {
-                            if (el) skillRefs.current.set(skill.name, el);
-                        }}
-                    >
-                        <div className="w-full h-full relative overflow-hidden">
-                            <div className="w-full h-full flex justify-center items-center z-10 relative text-background">
-                                <SvgIcon
-                                    url={skill.icon.url}
-                                    size={64}
-                                    className="svg-icon transition-opacity absolute text-primary"
-                                />
-                                <div className="transition-colors duration-300 -z-10 text-background">
-                                    {skill.name}
-                                </div>
-                            </div>
-                            <div
-                                className="gradient-reveal absolute rounded-full opacity-0 pointer-events-none"
-                                style={{
-                                    background: gradientBackground,
-                                    transform: 'translate(-50%, -50%)',
-                                    width: `${config.BASE_GRADIENT_SIZE}px`,
-                                    height: `${config.BASE_GRADIENT_SIZE}px`,
-                                    transition: `opacity ${config.TRANSITION_DURATION}ms ease, width ${config.TRANSITION_DURATION}ms ease, height ${config.TRANSITION_DURATION}ms ease`
-                                }}
-                            ></div>
-                        </div>
+
+                <div className="col-span-4 row-start-2 row-span-5 grid grid-cols-6 grid-rows-6 gap-2 transition-none">
+                    <div className="w-[7rem] h-30 p-1">
+                        <div className="w-full h-full bg-primary text-background"> My Skills</div>
                     </div>
-                ))}
-                <div className="w-[11rem] h-30 p-1">
-                    <div className="w-full h-full bg-primary text-background"> And More...</div>
+                    {skills.map((skill, index) => (
+                        <div
+                            className="w-[7rem] h-30 p-1 cursor-pointer group"
+                            key={skill.name + index}
+                            ref={(el) => {
+                                if (el) skillRefs.current.set(skill.name, el);
+                            }}
+                        >
+                            <div className="w-full h-full relative overflow-hidden">
+                                <div className="w-full h-full flex justify-center items-center z-10 relative text-background">
+                                    <SvgIcon
+                                        url={skill.icon.url}
+                                        size={64}
+                                        className="svg-icon absolute text-primary"
+                                    />
+                                    <div className=" -z-10 text-background">
+                                        {skill.name}
+                                    </div>
+                                </div>
+                                <div
+                                    className="gradient-reveal absolute rounded-full opacity-0 pointer-events-none"
+                                    style={{
+                                        background: gradientBackground,
+                                        transform: 'translate(-50%, -50%)',
+                                        width: `${config.BASE_GRADIENT_SIZE}px`,
+                                        height: `${config.BASE_GRADIENT_SIZE}px`,
+                                        transition: `opacity ${config.TRANSITION_DURATION}ms ease, width ${config.TRANSITION_DURATION}ms ease, height ${config.TRANSITION_DURATION}ms ease`
+                                    }}
+                                ></div>
+                            </div>
+                        </div>
+                    ))}
+                    <div className="w-[7rem] h-30 p-1">
+                        <div className="w-full h-full bg-primary text-background"> And More...</div>
+                    </div>
                 </div>
+
             </div>
         </div>
     );
