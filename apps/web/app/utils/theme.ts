@@ -32,6 +32,12 @@ const themes = {
         accent: '#78c2a4',
         background: '#f9f0e2',
     },
+    'custom': {
+        primary: '#ECA72C',
+        secondary: '#435378',
+        accent: '#F9F8F8',
+        background: '#273043',
+    }
 };
 
 // Type for theme values

@@ -25,7 +25,7 @@ export function AppNavBar({ siteName }: { siteName: string }) {
             {Object.entries(pages).map(([key, value]) => (
               <Link
                 key={key}
-                className={`hover:underline transition duration-300 ${location.pathname === value ? "text-secondary font-semibold" : "text-primary"}`}
+                className={`hover:underline transition duration-300 ${location.pathname === value ? "text-accent font-semibold" : "text-primary"}`}
                 to={value}
               >
                 {key}
