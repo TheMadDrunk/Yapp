@@ -40,7 +40,6 @@ export const loader = async () => {
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { theme, global } = useLoaderData<{ theme: ReturnType<typeof getCurrentTheme>, global: Global }>();
-  console.log("[global in layout]", global);
   return (
     <html lang="en">
       <head>

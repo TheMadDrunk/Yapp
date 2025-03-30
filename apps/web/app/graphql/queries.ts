@@ -51,7 +51,7 @@ export const PROFILE_INFO = gql`
         profilePicture {
             url
         }
-        skills {
+        skills (pagination: {limit: 20}) {
             name
             icon {
                 url
