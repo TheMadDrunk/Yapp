@@ -89,3 +89,15 @@ export const GET_PROJECTS = gql`
         }
     }
 `;
+
+export const GET_GLOBAL = gql`
+    query GetGlobal {
+        global {
+            siteName
+            favicon {
+                url
+            }
+            siteDescription
+        }
+    }
+`;

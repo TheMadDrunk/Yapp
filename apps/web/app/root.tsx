@@ -11,6 +11,10 @@ import { getCurrentTheme } from "./utils/theme";
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { GET_GLOBAL } from "./graphql/queries";
+import type { Global } from "./graphql/types";
+import graphqlClient from "./graphql/client";
+import env from "./config/env";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -26,14 +30,17 @@ export const links: Route.LinksFunction = () => [
 ];
 
 // Add loader to provide theme data
-export const loader = () => {
+export const loader = async () => {
   const theme = getCurrentTheme();
-  return { theme };
-};
+  const { data: global } = await graphqlClient.query<{ global: Global }>({
+    query: GET_GLOBAL,
+  });
+  return { theme, global: global.global };
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { theme } = useLoaderData<{ theme: ReturnType<typeof getCurrentTheme> }>();
-
+  const { theme, global } = useLoaderData<{ theme: ReturnType<typeof getCurrentTheme>, global: Global }>();
+  console.log("[global in layout]", global);
   return (
     <html lang="en">
       <head>
@@ -41,6 +48,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <link rel="icon" href={`${env.STRAPI_URL}${global.favicon.url}`} />
+        <title>{global.siteName}</title>
+        <meta name="description" content={global.siteDescription} />
         <style dangerouslySetInnerHTML={{
           __html: `
             :root {

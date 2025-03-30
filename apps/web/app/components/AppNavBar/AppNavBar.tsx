@@ -9,7 +9,7 @@ import {
 import { Menu } from "lucide-react";
 import { pages } from "~/routes/path";
 import { useState, useEffect } from "react";
-export function AppNavBar() {
+export function AppNavBar({ siteName }: { siteName: string }) {
 
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -20,7 +20,7 @@ export function AppNavBar() {
     <nav className="bg-background text-primary py-2 w-full">
       <div className="hidden sm:block">
         <div className="flex flex-row items-center px-2">
-          <h1 className="text-2xl font-bold">Yapp</h1>
+          <h1 className="text-2xl font-bold">{siteName}</h1>
           <div className="flex items-center gap-4 w-full justify-center">
             {Object.entries(pages).map(([key, value]) => (
               <Link
@@ -35,7 +35,7 @@ export function AppNavBar() {
         </div>
       </div>
       <div className="flex flex-row items-center justify-between px-2 sm:hidden">
-        <h1 className="text-2xl font-bold">Yapp</h1>
+        <h1 className="text-2xl font-bold">{siteName}</h1>
 
         <Drawer direction="right" open={isOpen} onOpenChange={setIsOpen}>
           <DrawerTrigger>

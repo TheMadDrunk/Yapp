@@ -87,3 +87,10 @@ export interface ProjectsData {
     projects: Project[];
 }
 
+export interface Global {
+    siteName: string;
+    siteDescription: string;
+    favicon: {
+        url: string;
+    };
+}
