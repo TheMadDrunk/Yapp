@@ -15612,6 +15612,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-ga@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "react-ga@npm:3.3.1"
+  peerDependencies:
+    prop-types: ^15.6.0
+    react: ^15.6.2 || ^16.0 || ^17 || ^18
+  checksum: 10c0/a2a61c138887c651a59b49669141246e9a01803bd67c5d7581016949d2c8acdbef14db1a0039b855dcd3c979c711b4c45d910fcaa49e27165c13cdc685b4c2e0
+  languageName: node
+  linkType: hard
+
 "react-helmet@npm:^6.1.0":
   version: 6.1.0
   resolution: "react-helmet@npm:6.1.0"
@@ -19266,6 +19276,7 @@ __metadata:
     prettier: "npm:^3.5.2"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
+    react-ga: "npm:^3.3.1"
     react-markdown: "npm:^10.1.0"
     react-router: "npm:^7.2.0"
     react-router-devtools: "npm:^1.1.0"

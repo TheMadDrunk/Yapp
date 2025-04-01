@@ -1,13 +1,17 @@
-import { ProjectCard, type ProjectCardProps } from "../ProjectCard";
 import { Github, PlayCircle } from "lucide-react";
 import { Button } from "../ui/Button";
 import type { Project } from "~/graphql/types";
 import env from "~/config/env";
+import { useAnalytics } from "~/hooks";
+
 interface ProjectsListingProps {
     projects: Project[];
 }
 
 export function ProjectsListing({ projects }: ProjectsListingProps) {
+    // Create a project-specific event tracker
+    const gaEventTracker = useAnalytics("Project");
+
     if (projects.length === 0) {
         return (
             <div className="py-8 text-center text-primary/70">
@@ -52,6 +56,7 @@ export function ProjectsListing({ projects }: ProjectsListingProps) {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center text-primary hover:text-accent transition-colors"
+                                        onClick={() => gaEventTracker("Click GitHub Link", project.title)}
                                     >
                                         <Button
                                             variant="outline"
@@ -65,7 +70,12 @@ export function ProjectsListing({ projects }: ProjectsListingProps) {
                             )}
                             {project.demoLink && (
                                 <div className="mt-6">
-                                    <a href={project.demoLink} target="_blank" rel="noopener noreferrer">
+                                    <a
+                                        href={project.demoLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        onClick={() => gaEventTracker("Click Demo Link", project.title)}
+                                    >
                                         <Button variant="outline" className="border border-primary/20 hover:border-primary px-4 py-2">
                                             <PlayCircle className="w-4 h-4 mr-2" />
                                             View Demo

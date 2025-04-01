@@ -3,6 +3,7 @@ let env = {
     STRAPI_URL: 'http://localhost:1337',
     NODE_ENV: 'development',
     THEME: 'red-wine',
+    GOOGLE_ANALYTICS_ID: '',
 }
 const initEnv = () => {
     try {
@@ -11,6 +12,7 @@ const initEnv = () => {
             STRAPI_URL: import.meta.env.VITE_STRAPI_URL ?? 'http://localhost:1337',
             NODE_ENV: import.meta.env.VITE_NODE_ENV ?? 'development',
             THEME: import.meta.env.VITE_THEME ?? 'red-wine',
+            GOOGLE_ANALYTICS_ID: import.meta.env.VITE_GOOGLE_ANALYTICS_ID ?? '',
         };
     } catch (error) {
         console.log('[env]:', error);

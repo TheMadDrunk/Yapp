@@ -6,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useLocation,
 } from "react-router";
 import { getCurrentTheme } from "~/utils/theme";
 
@@ -15,6 +16,15 @@ import { GET_GLOBAL } from "./graphql/queries";
 import type { Global } from "./graphql/types";
 import graphqlClient from "./graphql/client";
 import env from "./config/env";
+import ReactGA from 'react-ga';
+import { useEffect } from "react";
+
+// Add TypeScript declaration for window.GA_ID
+declare global {
+  interface Window {
+    GA_ID?: string;
+  }
+}
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -35,11 +45,27 @@ export const loader = async () => {
   const { data: global } = await graphqlClient.query<{ global: Global }>({
     query: GET_GLOBAL,
   });
-  return { theme, global: global.global };
+
+  // This only runs on the server
+  return { theme, global: global.global, GA_ID: env.GOOGLE_ANALYTICS_ID };
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { theme, global } = useLoaderData<{ theme: ReturnType<typeof getCurrentTheme>, global: Global }>();
+  const { theme, global, GA_ID } = useLoaderData<{ theme: ReturnType<typeof getCurrentTheme>, global: Global, GA_ID: string }>();
+  const location = useLocation();
+
+  useEffect(() => {
+    // Only initialize GA if we're in a browser environment and window.GA_ID exists
+    if (typeof window !== 'undefined' && window.GA_ID) {
+      // Initialize once per page navigation using window.GA_ID which comes from the script tag
+      ReactGA.initialize(window.GA_ID, {
+        debug: import.meta.env.DEV, // Use Vite's environment variable for development mode
+      });
+      // Track the current page view
+      ReactGA.pageview(location.pathname + location.search);
+    }
+  }, [location]); // Only react to changes in location since window.GA_ID won't change
+
   return (
     <html lang="en">
       <head>
@@ -50,6 +76,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <link rel="icon" href={`${env.STRAPI_URL}${global.favicon.url}`} />
         <title>{global.siteName}</title>
         <meta name="description" content={global.siteDescription} />
+        {/* Set GA_ID on window from server environment for client-side access */}
+        {GA_ID && (
+          <script dangerouslySetInnerHTML={{
+            __html: `
+              window.GA_ID = ${JSON.stringify(GA_ID)};
+            `
+          }} />
+        )}
         <style dangerouslySetInnerHTML={{
           __html: `
             :root {

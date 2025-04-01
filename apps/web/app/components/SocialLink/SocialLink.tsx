@@ -1,8 +1,10 @@
 import React from "react";
 import type { ISocialLink } from "~/graphql/types";
 import { SvgIcon } from "~/components/ui";
+import { useAnalytics } from "~/hooks";
 
 export function SocialLink({ icon, name, link }: ISocialLink) {
+  const gaEventTracker = useAnalytics("SocialLink");
   return (
     <a
       href={link}
@@ -10,6 +12,7 @@ export function SocialLink({ icon, name, link }: ISocialLink) {
       rel="noopener noreferrer"
       className="flex items-center gap-2 text-primary group hover:text-accent hover:border-accent transition-colors duration-300 border border-primary p-1"
       aria-label={name}
+      onClick={() => gaEventTracker(name)}
     >
       <SvgIcon
         url={icon.url}
