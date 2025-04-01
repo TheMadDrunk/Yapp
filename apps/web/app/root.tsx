@@ -19,7 +19,6 @@ import env from "./config/env";
 import ReactGA from 'react-ga';
 import { useEffect } from "react";
 
-// Add TypeScript declaration for window.GA_ID
 declare global {
   interface Window {
     GA_ID?: string;
@@ -39,14 +38,12 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
-// Add loader to provide theme data
 export const loader = async () => {
   const theme = getCurrentTheme();
   const { data: global } = await graphqlClient.query<{ global: Global }>({
     query: GET_GLOBAL,
   });
 
-  // This only runs on the server
   return { theme, global: global.global, GA_ID: env.GOOGLE_ANALYTICS_ID };
 }
 
@@ -55,16 +52,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
 
   useEffect(() => {
-    // Only initialize GA if we're in a browser environment and window.GA_ID exists
     if (typeof window !== 'undefined' && window.GA_ID) {
-      // Initialize once per page navigation using window.GA_ID which comes from the script tag
       ReactGA.initialize(window.GA_ID, {
-        debug: import.meta.env.DEV, // Use Vite's environment variable for development mode
+        debug: import.meta.env.DEV,
       });
-      // Track the current page view
       ReactGA.pageview(location.pathname + location.search);
     }
-  }, [location]); // Only react to changes in location since window.GA_ID won't change
+  }, [location]);
 
   return (
     <html lang="en">
