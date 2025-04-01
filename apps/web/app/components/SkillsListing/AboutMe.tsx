@@ -42,7 +42,7 @@ interface SkillsListingProps {
     animationConfig?: Partial<typeof ANIMATION_CONFIG>;
 }
 
-export function SkillsListing({
+export function AboutMe({
     skills,
     description,
     profilePicture,
@@ -175,8 +175,6 @@ export function SkillsListing({
     // Build the gradient background based on configuration
     const gradientBackground = `radial-gradient(circle closest-side, 
         var(--color-primary) ${config.GRADIENT_COLORS.PRIMARY_STOP}%, 
-        var(--color-secondary) ${config.GRADIENT_COLORS.SECONDARY_STOP}%, 
-        var(--color-accent) ${config.GRADIENT_COLORS.ACCENT_STOP}%, 
         transparent ${config.GRADIENT_COLORS.TRANSPARENT_STOP}%)`;
 
     // Handle touch interaction for mobile
@@ -190,7 +188,7 @@ export function SkillsListing({
         <div className="mt-6 md:mt-10 px-4 md:px-0" ref={skillsSectionRef}>
             {/* Modern Minimalist Mobile Layout */}
             <div className="md:hidden flex flex-col space-y-10">
-                <div className="border-l-2 border-primary pl-4">
+                <div className="border-primary">
                     <h2 className="text-lg text-primary font-semibold">./About me</h2>
                 </div>
 
@@ -256,26 +254,26 @@ export function SkillsListing({
             </div>
 
             {/* Desktop layout with grid */}
-            <div className="hidden md:grid grid-cols-7 grid-rows-6 gap-2">
+            <div className="hidden md:grid grid-cols-7 grid-rows-7 gap-2">
                 <h2 className="text-lg text-primary font-semibold col-span-1">./About me</h2>
-                <p className="text-primary max-w-xl text-justify col-span-3 col-start-5 italic">
+                <p className="text-primary text-sm text-justify col-span-4 col-start-1 row-start-2 italic">
                     &quot;{description}&quot;
                 </p>
                 {profilePicture && (
                     <div
-                        className="col-span-3 col-start-5 row-start-2 row-span-5 flex justify-center items-center bg-cover bg-center"
+                        className="col-span-3 col-start-5 row-span-7 flex justify-center items-center bg-cover bg-center border-primary border-b-2"
                         style={{ backgroundImage: `url(${env.STRAPI_URL + profilePicture.url})` }}
                     >
                     </div>
                 )}
 
-                <div className="col-span-4 row-start-2 row-span-5 grid grid-cols-6 grid-rows-6 gap-2 transition-none">
-                    <div className="w-[7rem] h-30 p-1">
-                        <div className="w-full h-full bg-primary text-background"> My Skills</div>
+                <div className="col-span-4 row-start-3 row-span-5 grid grid-cols-5 gap-2 transition-none auto-rows-[60px]">
+                    <div className="p-1 h-[60px]">
+                        <div className="w-full h-full bg-primary text-background flex items-center justify-center"> My Skills</div>
                     </div>
                     {skills.map((skill, index) => (
                         <div
-                            className="w-[7rem] h-30 p-1 cursor-pointer group"
+                            className="p-1 cursor-pointer group h-[60px]"
                             key={skill.name + index}
                             ref={(el) => {
                                 if (el) skillRefs.current.set(skill.name, el);
@@ -285,10 +283,10 @@ export function SkillsListing({
                                 <div className="w-full h-full flex justify-center items-center z-10 relative text-background">
                                     <SvgIcon
                                         url={skill.icon.url}
-                                        size={64}
+                                        size={42}
                                         className="svg-icon absolute text-primary"
                                     />
-                                    <div className=" -z-10 text-background">
+                                    <div className="-z-10 text-background text-xs font-bold">
                                         {skill.name}
                                     </div>
                                 </div>
@@ -305,8 +303,8 @@ export function SkillsListing({
                             </div>
                         </div>
                     ))}
-                    <div className="w-[7rem] h-30 p-1">
-                        <div className="w-full h-full bg-primary text-background"> And More...</div>
+                    <div className="p-1 h-[60px]">
+                        <div className="w-full h-full bg-primary text-background flex items-center justify-center"> And More...</div>
                     </div>
                 </div>
 

@@ -165,7 +165,7 @@ export function WorkExperienceListing({
 
                             {/* Description overlay with gradient - Only for desktop */}
                             <div
-                                className="absolute inset-0 z-10 opacity-0 hidden md:block group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-full transition-all duration-500 ease-in-out bg-gradient-to-r from-primary via-secondary to-accent"
+                                className="absolute inset-0 z-10 opacity-0 hidden md:block group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-full transition-all duration-500 ease-in-out bg-gradient-to-r from-primary to-accent"
                             >
                                 <div className="absolute inset-0 flex items-center justify-center p-5">
                                     <div className="w-full">

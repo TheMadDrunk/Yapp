@@ -1,12 +1,9 @@
 import type { Route } from "./+types/home";
-import { Button } from "../components/ui/Button";
 import { SocialLinkList } from "~/components/SocialLinkList";
-import { ArticlesCardListing, type ArticleCardProps, ErrorDisplay, SkillsListing, WorkExperienceListing, Quote } from "~/components";
+import { ArticlesCardListing, type ArticleCardProps, ErrorDisplay, WorkExperienceListing, Quote, AboutMe } from "~/components";
 import { GET_COLLECTION_ARTICLES, PROFILE_INFO } from "../graphql/queries";
 import type { CollectionArticles, ProfileInfo } from "../graphql/types";
 import graphqlClient from "~/graphql/client";
-import { Link } from "react-router";
-import { pages } from "~/routes/path";
 
 export async function loader() {
   try {
@@ -83,29 +80,23 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="py-2 sm:py-16">
-        <div className="py-5 w-fit md:w-[650px] mx-auto font-semibold ">
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl text-primary">
+        <div className="py-5 w-fit md:w-[70%] lg:w-[650px] mx-auto font-semibold ">
+          <h1 className="text-5xl sm:text-5xl md:text-6xl lg:text-7xl text-primary">
             {title.split(" ")[0]}
           </h1>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl text-primary ml-30 md:text-right">
+          <h1 className="text-5xl sm:text-5xl md:text-6xl lg:text-7xl text-primary ml-16  sm:ml-30 md:text-right">
             {title.split(" ")[1]}
           </h1>
         </div>
-        <h2 className="sm:text-sm md:text-md lg:text-xl text-primary max-w-2xl mt-6 md:text-center sm:mx-auto text-left w-[80%]">
+        <h2 className="sm:text-sm md:text-md lg:text-xl text-primary max-w-2xl mt-6 text-center mx-auto w-[80%]">
           {subTitle}
         </h2>
       </div>
 
-      <div className="flex flex-row justify-end w-full">
-        <Button variant="outline">
-          <Link to={pages.Projects}>Projects</Link>
-        </Button>
-      </div>
-
       <SocialLinkList links={socialLinks} />
       <ArticlesCardListing articles={articles} />
-
-      <SkillsListing
+      <div className="border-t border-primary my-12"></div>
+      <AboutMe
         skills={skills}
         description={description}
         profilePicture={profilePicture}
@@ -120,7 +111,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           }
         }}
       />
+      <div className="border-t border-primary my-12"></div>
+
       <WorkExperienceListing experiences={workExperiences} />
+      <div className="border-t border-primary my-12"></div>
 
       <div className="flex flex-col items-center justify-center">
         <Quote quote={quote?.body!} author={quote?.name!} />
