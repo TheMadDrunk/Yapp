@@ -16,14 +16,7 @@ import { GET_GLOBAL } from "./graphql/queries";
 import type { Global } from "./graphql/types";
 import graphqlClient from "./graphql/client";
 import env from "./config/env";
-import ReactGA from 'react-ga';
 import { useEffect } from "react";
-
-declare global {
-  interface Window {
-    GA_ID?: string;
-  }
-}
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -44,34 +37,30 @@ export const loader = async () => {
     query: GET_GLOBAL,
   });
 
-  return { theme, global: global.global, GA_ID: env.GOOGLE_ANALYTICS_ID };
+  return {
+    theme,
+    global: global.global,
+    umami: {
+      scriptUrl: env.UMAMI_SCRIPT_URL,
+      websiteId: env.UMAMI_WEBSITE_ID
+    }
+  };
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { theme, global, GA_ID } = useLoaderData<{ theme: ReturnType<typeof getCurrentTheme>, global: Global, GA_ID: string }>();
-  const location = useLocation();
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.GA_ID) {
-      ReactGA.initialize(window.GA_ID, {
-        debug: import.meta.env.DEV,
-      });
-      ReactGA.pageview(location.pathname + location.search);
+  const { theme, global, umami } = useLoaderData<{
+    theme: ReturnType<typeof getCurrentTheme>,
+    global: Global,
+    umami: {
+      scriptUrl: string,
+      websiteId: string
     }
-  }, [location]);
+  }>();
+  const location = useLocation();
 
   return (
     <html lang="en">
       <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-FJ86228B5X"></script>
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-FJ86228B5X');
-          `
-        }} />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
@@ -79,14 +68,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <link rel="icon" href={`${env.STRAPI_URL}${global.favicon.url}`} />
         <title>{global.siteName}</title>
         <meta name="description" content={global.siteDescription} />
-        {/* Set GA_ID on window from server environment for client-side access */}
-        <script defer src="https://umami-z4g4wc8oc8wwssksoggcc80w.7amza.ma/script.js" data-website-id="1b40ebbd-a966-4855-b53a-c9a2f01a297c"></script>
-        {GA_ID && (
-          <script dangerouslySetInnerHTML={{
-            __html: `
-              window.GA_ID = ${JSON.stringify(GA_ID)};
-            `
-          }} />
+        {umami.scriptUrl && umami.websiteId && (
+          <script defer src={umami.scriptUrl} data-website-id={umami.websiteId}></script>
         )}
         <style dangerouslySetInnerHTML={{
           __html: `
