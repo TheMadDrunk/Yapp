@@ -80,6 +80,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <title>{global.siteName}</title>
         <meta name="description" content={global.siteDescription} />
         {/* Set GA_ID on window from server environment for client-side access */}
+        <script defer src="https://umami-z4g4wc8oc8wwssksoggcc80w.7amza.ma/script.js" data-website-id="1b40ebbd-a966-4855-b53a-c9a2f01a297c"></script>
         {GA_ID && (
           <script dangerouslySetInnerHTML={{
             __html: `
