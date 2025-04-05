@@ -16,7 +16,15 @@ import { GET_GLOBAL } from "./graphql/queries";
 import type { Global } from "./graphql/types";
 import graphqlClient from "./graphql/client";
 import env from "./config/env";
-import { useEffect } from "react";
+
+declare global {
+  interface Window {
+    umami: {
+      track: (event: string, data?: any) => void;
+    };
+  }
+}
+
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },

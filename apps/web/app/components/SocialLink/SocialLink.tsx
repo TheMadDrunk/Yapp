@@ -4,7 +4,7 @@ import { SvgIcon } from "~/components/ui";
 import { useAnalytics } from "~/hooks";
 
 export function SocialLink({ icon, name, link }: ISocialLink) {
-  const gaEventTracker = useAnalytics("SocialLink");
+  const gaEventTracker = useAnalytics();
   return (
     <a
       href={link}

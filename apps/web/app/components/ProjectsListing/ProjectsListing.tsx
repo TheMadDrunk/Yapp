@@ -10,7 +10,7 @@ interface ProjectsListingProps {
 
 export function ProjectsListing({ projects }: ProjectsListingProps) {
     // Create a project-specific event tracker
-    const gaEventTracker = useAnalytics("Project");
+    const gaEventTracker = useAnalytics();
 
     if (projects.length === 0) {
         return (
@@ -56,7 +56,7 @@ export function ProjectsListing({ projects }: ProjectsListingProps) {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center text-primary hover:text-accent transition-colors"
-                                        onClick={() => gaEventTracker("Click GitHub Link", project.title)}
+                                        onClick={() => gaEventTracker(`Click GitHub Link`, { projectTitle: project.title })}
                                     >
                                         <Button
                                             variant="outline"
@@ -74,7 +74,7 @@ export function ProjectsListing({ projects }: ProjectsListingProps) {
                                         href={project.demoLink}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        onClick={() => gaEventTracker("Click Demo Link", project.title)}
+                                        onClick={() => gaEventTracker("Click Demo Link", { projectTitle: project.title })}
                                     >
                                         <Button variant="outline" className="border border-primary/20 hover:border-primary px-4 py-2">
                                             <PlayCircle className="w-4 h-4 mr-2" />

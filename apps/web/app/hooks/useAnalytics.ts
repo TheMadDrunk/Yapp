@@ -1,19 +1,15 @@
 import ReactGA from 'react-ga';
 import { useCallback } from 'react';
 
-/**
- * Simple hook for creating Google Analytics event trackers
- * @param category The event category
- * @returns A function that tracks events for the specified category
- */
-export function useAnalytics(category = "General") {
+
+export function useAnalytics() {
     const eventTracker = useCallback(
-        (action = "action", label?: string) => {
-            if (typeof window !== 'undefined' && window.GA_ID) {
-                ReactGA.event({ category, action, label });
+        (event: string, data?: any) => {
+            if (typeof window !== 'undefined') {
+                window.umami.track(event, data);
             }
         },
-        [category]
+        []
     );
 
     return eventTracker;
